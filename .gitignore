@@ -1,0 +1,21 @@
+# Secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+*.key
+secrets.json
+config.local.js
+
+# Dependencies (if you add Node later)
+node_modules/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/

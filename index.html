@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa — You have options. Let's find them together.</title>
+<style>
+  :root{
+    --bg:#fbf7f1;
+    --card:#ffffff;
+    --ink:#2c2a26;
+    --ink-soft:#5f5a51;
+    --line:#ece4d8;
+    --accent:#3a7d6e;
+    --accent-soft:#e6f1ed;
+    --accent-deep:#2f655a;
+    --warm:#e08a3c;
+    --warm-soft:#fbeede;
+    --danger:#b65b4e;
+    --shadow:0 6px 24px rgba(60,50,35,.08);
+    --shadow-lg:0 18px 50px rgba(60,50,35,.14);
+    --r:18px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:480px;margin:0 auto;min-height:100vh;position:relative;}
+  .topbar{
+    position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
+    padding:14px 18px;background:rgba(251,247,241,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-.3px;font-size:18px}
+  .logo .dot{width:24px;height:24px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:800}
+  .beta{font-size:10px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);padding:3px 7px;border-radius:20px;letter-spacing:.5px}
+  .lang{margin-left:auto;font-size:13px;color:var(--ink-soft);border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:30px;cursor:pointer;display:flex;align-items:center;gap:5px}
+  .lang:hover{border-color:var(--accent)}
+  .screen{display:none;padding:22px 18px 120px;animation:fade .4s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .steps{display:flex;gap:6px;margin-bottom:22px}
+  .steps span{height:4px;flex:1;border-radius:4px;background:var(--line);transition:.4s}
+  .steps span.on{background:var(--accent)}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  h1{font-size:30px;line-height:1.18;letter-spacing:-.7px;margin:0 0 14px;font-weight:800}
+  h2{font-size:22px;letter-spacing:-.4px;margin:0 0 10px;font-weight:800}
+  p{margin:0 0 14px;color:var(--ink-soft)}
+  p.lead{color:var(--ink);font-size:17px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+  .btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--accent)}
+  .btn-row{display:flex;gap:10px;margin-top:18px}
+  .btn-row .btn{margin-top:0}
+  .textlink{background:none;border:none;color:var(--ink-soft);font-size:14px;cursor:pointer;font-family:inherit;text-decoration:underline;padding:8px}
+  .reassure-hero{background:linear-gradient(160deg,#3a7d6e,#2f655a);color:#fff;border-radius:24px;padding:30px 24px;box-shadow:var(--shadow-lg);margin-bottom:8px}
+  .reassure-hero .eyebrow{color:#bfe3d9}
+  .reassure-hero h1{color:#fff}
+  .reassure-hero p{color:#dcefe9}
+  .pulse{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;margin-bottom:18px;font-size:26px;animation:beat 2.6s ease-in-out infinite}
+  @keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.28)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
+  .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;cursor:pointer;transition:.2s;font-family:inherit}
+  .opt:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+  .opt .ic{width:44px;height:44px;flex:none;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:22px}
+  .opt .t{font-weight:700;font-size:16px;color:var(--ink)}
+  .opt .s{font-size:13.5px;color:var(--ink-soft)}
+  .opt .arr{margin-left:auto;color:var(--accent);font-size:20px;flex:none}
+  .modes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+  .mode{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:.2s;font-family:inherit}
+  .mode:hover,.mode.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .mode .mi{font-size:24px}
+  .mode .ml{font-size:12.5px;font-weight:700;margin-top:6px;color:var(--ink)}
+  textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:14px;font-family:inherit;font-size:15px;resize:none;background:var(--card);color:var(--ink)}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .upload{border:2px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;background:var(--card);cursor:pointer;transition:.2s}
+  .upload:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .upload .ui{font-size:34px}
+  .doc-preview{background:#f4efe6;border:1px solid var(--line);border-radius:14px;padding:18px;font-family:"Courier New",monospace;font-size:12.5px;color:#4a463d;position:relative;overflow:hidden}
+  .doc-preview .stamp{position:absolute;top:14px;right:-30px;background:var(--danger);color:#fff;font-family:sans-serif;font-weight:800;font-size:11px;padding:4px 36px;transform:rotate(38deg)}
+  .scanline{height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent);position:absolute;left:0;right:0;animation:scan 1.6s ease-in-out infinite}
+  @keyframes scan{0%{top:0}100%{top:100%}}
+  .summary-card{background:var(--card);border-radius:20px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--line);margin-bottom:16px}
+  .tag{display:inline-block;font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px;margin-bottom:14px}
+  .tag.amber{background:var(--warm-soft);color:#a85f1c}
+  .tag.green{background:var(--accent-soft);color:var(--accent-deep)}
+  .factline{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .factline:last-child{border-bottom:none}
+  .factline .fi{font-size:20px;flex:none}
+  .factline b{color:var(--ink)}
+  .reassure-pill{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:14px;padding:14px;margin:4px 0 0;color:var(--accent-deep)}
+  .reassure-pill .ic{font-size:20px}
+  .door{display:flex;gap:14px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;text-decoration:none;color:inherit;cursor:pointer;transition:.2s;width:100%;text-align:left;font-family:inherit}
+  .door:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
+  .door .di{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:24px}
+  .door.call .di{background:#e9f1fb}
+  .door.rights .di{background:var(--accent-soft)}
+  .door.next .di{background:var(--warm-soft)}
+  .door .dt{font-weight:800;font-size:16px}
+  .door .ds{font-size:13.5px;color:var(--ink-soft)}
+  .res{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+  .res h3{margin:0 0 4px;font-size:16px}
+  .res .meta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
+  .res .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .chip{font-size:11px;background:var(--bg);border:1px solid var(--line);padding:3px 8px;border-radius:20px;color:var(--ink-soft)}
+  .res .call{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 14px;border-radius:10px}
+  .check{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer}
+  .check .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--accent);flex:none;display:grid;place-items:center;color:#fff;font-weight:800;transition:.2s}
+  .check.done .box{background:var(--accent)}
+  .check.done .ct{text-decoration:line-through;color:var(--ink-soft)}
+  .check .ct{font-weight:600}
+  .check .cs{font-size:13px;color:var(--ink-soft);font-weight:400}
+  .back{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--ink-soft);font-size:14px;cursor:pointer;font-family:inherit;margin-bottom:14px;padding:4px 0}
+  .back:hover{color:var(--accent)}
+  .trust{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:18px;font-size:13px;color:var(--ink-soft)}
+  .trust .ic{font-size:18px}
+  .nav{position:sticky;bottom:0;z-index:30;display:flex;background:rgba(251,247,241,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);max-width:480px;margin:0 auto}
+  .nav button{flex:1;background:none;border:none;padding:10px 0 14px;cursor:pointer;color:var(--ink-soft);font-family:inherit;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .nav button .ni{font-size:20px}
+  .nav button.on{color:var(--accent)}
+  .note{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:20px;opacity:.8}
+  .typing{display:inline-block}
+  .typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:0 1px;animation:blink 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo"><span class="dot">C</span>Casa <span class="beta">BETA</span></div>
+    <button class="lang" onclick="cycleLang()">🌐 <span id="langLabel">English</span></button>
+  </div>
+
+  <section class="screen active" id="s-home">
+    <div class="reassure-hero">
+      <div class="pulse">🫶</div>
+      <div class="eyebrow">You're in the right place</div>
+      <h1>Whatever's happening, you have options.</h1>
+      <p class="lead" style="color:#eaf5f1">Tell us what's going on in your own words. No accounts. No judgment. We'll help you find a way forward.</p>
+    </div>
+    <button class="btn btn-primary" style="margin-top:18px" onclick="go('s-understand')">Get help now →</button>
+    <button class="btn btn-ghost" style="margin-top:10px" onclick="go('s-browse')">Browse resources on my own</button>
+    <div class="trust">
+      <span class="ic">🔒</span>
+      <div><b style="color:var(--ink)">Safe to use.</b> We don't ask for your name, immigration status, or address. Nothing you type is shared with the city or anyone else.</div>
+    </div>
+    <p class="note">A free tool for NYC. Currently focused on housing — more help coming soon.</p>
+  </section>
+
+  <section class="screen" id="s-understand">
+    <div class="steps"><span class="on"></span><span></span><span></span><span></span></div>
+    <button class="back" onclick="go('s-home')">← Back</button>
+    <div class="eyebrow">Tell us what's happening</div>
+    <h2>What's going on? Take your time.</h2>
+    <p>You can type it, take a photo of a paper you received, or pick from common situations.</p>
+    <div class="modes">
+      <div class="mode sel" id="m-type" onclick="setMode('type')"><div class="mi">⌨️</div><div class="ml">Type it</div></div>
+      <div class="mode" id="m-photo" onclick="setMode('photo')"><div class="mi">📷</div><div class="ml">Photo</div></div>
+      <div class="mode" id="m-pick" onclick="setMode('pick')"><div class="mi">👆</div><div class="ml">Pick</div></div>
+    </div>
+    <div id="mode-type">
+      <textarea id="situationText" rows="4" placeholder="For example: my landlord slipped a paper under my door and I'm scared I'll lose my apartment..."></textarea>
+      <button class="btn btn-primary" style="margin-top:12px" onclick="analyze('type')">Continue →</button>
+      <button class="textlink" style="display:block;margin:6px auto 0" onclick="prefill()">Use the example above</button>
+    </div>
+    <div id="mode-photo" style="display:none">
+      <div class="upload" id="uploadBox" onclick="simulatePhoto()">
+        <div class="ui">📄</div>
+        <p style="margin:10px 0 2px;color:var(--ink);font-weight:700">Take or upload a photo of your notice</p>
+        <p style="font-size:13px;margin:0">We'll read it and explain it in plain language.</p>
+      </div>
+      <div id="docArea" style="display:none;margin-top:14px">
+        <div class="doc-preview" id="docPreview">
+          <div class="stamp">NOTICE</div>
+          <div class="scanline" id="scan"></div>
+          NEW YORK COUNTY · HOUSING<br><br>
+          <b>TEN (10) DAY NOTICE TO CURE</b><br><br>
+          TO: Tenant in possession<br>
+          You are hereby notified that you have violated a substantial obligation of your tenancy in that...<br><br>
+          You have TEN (10) DAYS from receipt to cure said default, in default of which the Landlord shall elect to terminate...
+        </div>
+        <p style="text-align:center;font-size:13px;margin-top:10px" id="readStatus"><span class="typing"><span></span><span></span><span></span></span> Reading your document…</p>
+      </div>
+    </div>
+    <div id="mode-pick" style="display:none">
+      <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t">I got a notice or eviction paper</div><div class="s">A letter from my landlord or the court</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t">I can't afford my rent</div><div class="s">I'm behind or about to fall behind</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t">My apartment is unsafe</div><div class="s">No heat, leaks, mold, repairs ignored</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t">I have nowhere to stay</div><div class="s">I need a safe place tonight</div></div><div class="arr">→</div></button>
+    </div>
+  </section>
+
+  <section class="screen" id="s-summary">
+    <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+    <button class="back" onclick="go('s-understand')">← Back</button>
+    <div class="eyebrow">Here's what this means</div>
+    <h2 id="sumTitle">Let's break it down.</h2>
+    <div class="summary-card">
+      <span class="tag amber" id="sumTag">⏳ Time-sensitive</span>
+      <p class="lead" id="sumPlain" style="margin-bottom:18px"></p>
+      <div id="sumFacts"></div>
+    </div>
+    <div class="reassure-pill">
+      <span class="ic">💚</span>
+      <div id="sumReassure"></div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:18px" onclick="go('s-connect')">Show me what I can do →</button>
+  </section>
+
+  <section class="screen" id="s-connect">
+    <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
+    <button class="back" onclick="go('s-summary')">← Back</button>
+    <div class="eyebrow">You're not alone</div>
+    <h2>Three ways forward. Pick what feels right.</h2>
+    <p>There's no wrong choice. Start wherever you're comfortable.</p>
+    <button class="door call" onclick="go('s-talk')">
+      <div class="di">📞</div>
+      <div><div class="dt">Talk to a real person</div><div class="ds">Free legal help & tenant hotlines — people who do this every day</div></div>
+    </button>
+    <button class="door rights" onclick="go('s-rights')">
+      <div class="di">⚖️</div>
+      <div><div class="dt">Know your rights</div><div class="ds">A plain-language guide for your exact situation</div></div>
+    </button>
+    <button class="door next" onclick="go('s-next')">
+      <div class="di">✅</div>
+      <div><div class="dt">What to do next</div><div class="ds">A simple checklist for the next 24–48 hours</div></div>
+    </button>
+    <div class="trust"><span class="ic">🤝</span><div>These are free, trusted NYC organizations. Many help <b style="color:var(--ink)">regardless of immigration status</b>.</div></div>
+  </section>
+
+  <section class="screen" id="s-talk">
+    <button class="back" onclick="go('s-connect')">← Back</button>
+    <div class="eyebrow">Talk to someone</div>
+    <h2>People who can help — for free.</h2>
+    <div class="res">
+      <h3>Legal Aid Society — Housing Help</h3>
+      <div class="meta">Free legal representation for tenants facing eviction</div>
+      <div class="chips"><span class="chip">English</span><span class="chip">Español</span><span class="chip">中文</span><span class="chip">No status check</span></div>
+      <a class="call" href="tel:2125774000">📞 (212) 577-3300</a>
+    </div>
+    <div class="res">
+      <h3>Met Council on Housing — Tenant Hotline</h3>
+      <div class="meta">Advice on your rights, repairs, and rent. Wed & Fri 1:30–5pm</div>
+      <div class="chips"><span class="chip">English</span><span class="chip">Español</span></div>
+      <a class="call" href="tel:2129799772">📞 (212) 979-0611</a>
+    </div>
+    <div class="res">
+      <h3>BronxWorks — Eviction Prevention</h3>
+      <div class="meta">Help with rent arrears, applications, and case support</div>
+      <div class="chips"><span class="chip">Walk-in</span><span class="chip">Español</span><span class="chip">Bronx</span></div>
+      <a class="call" href="tel:7185086936">📞 (718) 508-3000</a>
+    </div>
+    <div class="res">
+      <h3>NYC Tenant Helpline (311)</h3>
+      <div class="meta">City line for housing questions & complaints — 24/7</div>
+      <div class="chips"><span class="chip">200+ languages</span><span class="chip">24/7</span></div>
+      <a class="call" href="tel:311">📞 311</a>
+    </div>
+    <p class="note">Phone numbers shown are for demonstration. Real numbers verified before launch.</p>
+  </section>
+
+  <section class="screen" id="s-rights">
+    <button class="back" onclick="go('s-connect')">← Back</button>
+    <div class="eyebrow">Know your rights</div>
+    <h2>What a Notice to Cure really means.</h2>
+    <div class="summary-card">
+      <div class="factline"><span class="fi">①</span><div><b>It is not an eviction.</b> No one can remove you from your home without a court case and a judge's order. A notice is the very beginning of a process.</div></div>
+      <div class="factline"><span class="fi">②</span><div><b>You have the right to "cure."</b> This notice gives you 10 days to fix the issue the landlord claims. If you fix it, the matter can end there.</div></div>
+      <div class="factline"><span class="fi">③</span><div><b>You have the right to a lawyer.</b> In NYC, many tenants qualify for a <i>free</i> lawyer in housing court through the Right to Counsel law.</div></div>
+      <div class="factline"><span class="fi">④</span><div><b>Your status doesn't matter here.</b> Tenant protections apply to everyone, regardless of immigration status. You cannot be reported for using these rights.</div></div>
+      <div class="factline"><span class="fi">⑤</span><div><b>Keep everything.</b> Save the notice, envelopes, texts, and receipts. Photograph them. They protect you later.</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="go('s-next')">Okay — what do I do next? →</button>
+  </section>
+
+  <section class="screen" id="s-next">
+    <button class="back" onclick="go('s-connect')">← Back</button>
+    <div class="eyebrow">What to do next</div>
+    <h2>Your next 48 hours.</h2>
+    <p>Small steps. Tap each one as you go.</p>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Don't panic — and don't move out<div class="cs">A notice is not an order to leave. Staying put protects your rights.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Photograph the notice & envelope<div class="cs">Front and back. Note the date you received it.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Call Legal Aid or the tenant hotline<div class="cs">Tell them you got a Notice to Cure and the date. They'll guide you.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Write down what the landlord claims<div class="cs">Knowing the exact issue helps you and any advocate respond.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Mark the 10-day deadline<div class="cs">Count from the day you received it. Act before it ends.</div></div></div>
+    <div class="reassure-pill" style="margin-top:18px"><span class="ic">🌱</span><div>You've already done the hardest part — you started. One call tomorrow is real progress.</div></div>
+    <button class="btn btn-ghost" style="margin-top:18px" onclick="go('s-talk')">📞 Get the phone numbers</button>
+    <button class="btn btn-primary" style="margin-top:10px" onclick="go('s-home')">Start over / done for now</button>
+  </section>
+
+  <section class="screen" id="s-browse">
+    <button class="back" onclick="go('s-home')">← Back</button>
+    <div class="eyebrow">Browse on your own</div>
+    <h2>Housing help, by situation.</h2>
+    <p>Pick what's closest to what you're going through.</p>
+    <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t">Facing eviction or a notice</div><div class="s">Rights, the process, who can help</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t">Can't afford rent</div><div class="s">Rental assistance & one-shot deals</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t">Unsafe living conditions</div><div class="s">No heat, mold, repairs — your rights</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t">Experiencing homelessness</div><div class="s">Right to shelter & PATH intake</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('affordable')"><div class="ic">🏗️</div><div><div class="t">Looking for affordable housing</div><div class="s">NYC Housing Connect & NYCHA</div></div><div class="arr">→</div></button>
+    <button class="opt"><div class="ic">🛡️</div><div><div class="t">Safety & housing (DV)</div><div class="s">Confidential, safe options</div></div><div class="arr">→</div></button>
+    <p class="note">More categories — healthcare, legal, jobs — coming after housing.</p>
+  </section>
+
+  <div class="nav">
+    <button id="n-home" class="on" onclick="go('s-home')"><span class="ni">🏠</span>Home</button>
+    <button id="n-browse" onclick="go('s-browse')"><span class="ni">🔍</span>Browse</button>
+    <button id="n-help" onclick="go('s-understand')"><span class="ni">💬</span>Get help</button>
+    <button id="n-saved" onclick="go('s-talk')"><span class="ni">📞</span>Contacts</button>
+  </div>
+</div>
+
+<script>
+  const SUM = {
+    type:{title:"This looks like a Notice to Cure.",tag:"⏳ Time-sensitive · 10 days",plain:"From what you described, your landlord gave you a <b>Notice to Cure</b> — a paper that claims you broke a rule in your lease. It is <b>not</b> an eviction. It's the first step of a process, and you have time and options.",reassure:"A notice is not an eviction. You have rights, and people do this for free every day. Let's take it one step at a time.",facts:[["📅","<b>You have ~10 days</b> to respond or fix the issue."],["⚖️","<b>This is not an eviction order.</b> Only a judge can order that, after a court case."],["🆓","<b>You may qualify for a free lawyer</b> through NYC's Right to Counsel."]]},
+    evict:{title:"Facing a notice or eviction.",tag:"⏳ Time-sensitive",plain:"Getting a notice is frightening, but it's the <b>beginning</b> of a process — not the end. Nothing happens overnight, and you have real protections.",reassure:"You can't be removed without a court case and a judge's order. You have time. Let's find your next step.",facts:[["📅","<b>Deadlines matter</b> — but missing one is rarely the end. Act soon, not in panic."],["⚖️","<b>Only a court</b> can order an eviction, never the landlord directly."],["🆓","<b>Free legal help</b> exists for exactly this."]]},
+    rent:{title:"Behind on rent.",tag:"💵 Help is available",plain:"Falling behind on rent is one of the most common situations in NYC — and there are <b>specific programs</b> built to help, including emergency 'one-shot deal' grants.",reassure:"Owing rent does not mean losing your home. Many people catch up with help they didn't know existed. Let's find it.",facts:[["💰","<b>One-Shot Deal (HRA)</b> can cover rent arrears in an emergency."],["📝","<b>You apply through ACCESS HRA</b> — advocates can help you do it."],["🛡️","<b>Applying can pause</b> some eviction steps. It's worth doing early."]]},
+    unsafe:{title:"Unsafe living conditions.",tag:"🛠️ Your landlord's duty",plain:"Heat, hot water, and safe repairs are your <b>legal right</b> — not favors. Your landlord must provide them, and the city can enforce it.",reassure:"You don't have to live like this, and asking for repairs is your right. Reporting it cannot get you legally evicted.",facts:[["🔥","<b>Heat season</b> (Oct 1–May 31) requires set minimum temperatures."],["📞","<b>Call 311</b> to file a complaint and create an official record."],["🚫","<b>Retaliation is illegal</b> — a landlord can't punish you for reporting."]]},
+    shelter:{title:"You need a safe place.",tag:"🏠 Right to shelter",plain:"In New York City, you have a <b>legal right to shelter</b>. No one should sleep on the street tonight, and there are people whose job is to help you right now.",reassure:"You have a right to a safe place tonight. You are not a burden — this help exists for exactly this moment.",facts:[["🛏️","<b>NYC has a legal right to shelter</b> for those who need it."],["📍","<b>PATH (Bronx)</b> is the intake center for families with children — open 24/7."],["📞","<b>Call 311</b> any hour to be connected to intake."]]},
+    affordable:{title:"Finding affordable housing.",tag:"🏗️ Take it step by step",plain:"Affordable housing in NYC mostly runs through <b>lotteries and waitlists</b>. It takes patience, but getting your name in early is the most important move — and it's free to apply.",reassure:"It can feel slow, but every application is a real chance. Getting registered today puts you in the running. Let's start.",facts:[["🎟️","<b>NYC Housing Connect</b> lists affordable apartment lotteries you can apply to."],["📋","<b>NYCHA & Section 8</b> have waitlists — getting on them early matters most."],["🆓","<b>Applying is always free.</b> Never pay a fee to enter a housing lottery."]]}
+  };
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:'instant'});
+    const map={'s-home':'n-home','s-browse':'n-browse','s-understand':'n-help','s-talk':'n-saved'};
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
+    if(map[id]) document.getElementById(map[id]).classList.add('on');
+  }
+  function setMode(m){
+    ['type','photo','pick'].forEach(x=>{
+      document.getElementById('mode-'+x).style.display = x===m?'block':'none';
+      document.getElementById('m-'+x).classList.toggle('sel',x===m);
+    });
+  }
+  function prefill(){document.getElementById('situationText').value="my landlord slipped a paper under my door and I'm scared I'll lose my apartment";}
+  function simulatePhoto(){
+    document.getElementById('uploadBox').style.display='none';
+    document.getElementById('docArea').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('scan').style.display='none';
+      document.getElementById('readStatus').innerHTML='✅ Done — here’s what it says.';
+      setTimeout(()=>analyze('type'),700);
+    },2600);
+  }
+  function analyze(key){
+    const d = SUM[key]||SUM.type;
+    document.getElementById('sumTitle').textContent=d.title;
+    document.getElementById('sumTag').textContent=d.tag;
+    document.getElementById('sumTag').className='tag '+(d.tag.includes('Right to shelter')||d.tag.includes('available')?'green':'amber');
+    document.getElementById('sumPlain').innerHTML=d.plain;
+    document.getElementById('sumReassure').textContent=d.reassure;
+    document.getElementById('sumFacts').innerHTML=d.facts.map(f=>`<div class="factline"><span class="fi">${f[0]}</span><div>${f[1]}</div></div>`).join('');
+    go('s-summary');
+  }
+  function toggleCheck(el){el.classList.toggle('done');}
+  const langs=['English','Español','中文','Kreyòl','বাংলা','Русский'];let li=0;
+  function cycleLang(){li=(li+1)%langs.length;document.getElementById('langLabel').textContent=langs[li];}
+</script>
+</body>
+</html>
