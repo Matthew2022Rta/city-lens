@@ -125,6 +125,22 @@
   textarea:focus{outline:none;border-color:var(--accent)}
   .resource-search{width:100%;border:1.5px solid var(--line);border-radius:30px;padding:11px 16px;font-family:inherit;font-size:14px;background:var(--card);color:var(--ink);margin-bottom:14px}
   .resource-search:focus{outline:none;border-color:var(--accent)}
+  .datecat{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 4px}
+  .datecat:first-child{margin-top:2px}
+  .dateitem{cursor:pointer;border-radius:10px;transition:.15s}
+  .dateitem:hover{background:var(--accent-soft)}
+  .dlg{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(44,42,38,.45);backdrop-filter:blur(2px)}
+  .dlg.show{display:flex}
+  .dlg-card{background:var(--card);width:100%;max-width:480px;border-radius:22px 22px 0 0;padding:22px 20px 28px;max-height:86vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:slideup .28s ease}
+  @media(min-width:560px){.dlg{align-items:center}.dlg-card{border-radius:22px}}
+  @keyframes slideup{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+  .dlg-close{float:right;background:var(--bg);border:1px solid var(--line);width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;color:var(--ink-soft);font-family:inherit}
+  .dlg h3{margin:2px 40px 6px 0;font-size:20px;letter-spacing:-.3px}
+  .dlg .when{display:inline-block;font-size:12px;font-weight:700;background:var(--accent-soft);color:var(--accent-deep);padding:4px 11px;border-radius:20px;margin-bottom:16px}
+  .dlg-sec{margin-bottom:14px}
+  .dlg-sec h4{margin:0 0 4px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--accent)}
+  .dlg-sec p{margin:0;font-size:14px;color:var(--ink);line-height:1.5}
+  .dlg-src{font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
   .upload{border:2px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;background:var(--card);cursor:pointer;transition:.2s}
   .upload:hover{border-color:var(--accent);background:var(--accent-soft)}
   .upload .ui{font-size:34px}
@@ -209,13 +225,10 @@
     <div class="dash">
       <aside class="side">
         <div class="panel">
-          <h3>📅 <span data-i="dates_title">Important dates</span></h3>
-          <p class="sub" data-i="dates_sub">Housing deadlines to know</p>
-          <div class="dateitem"><div class="datebadge alert"><span class="d">10</span><span class="m" data-i="m_days">days</span></div><div><div class="dt" data-i="d1t">Respond to a notice</div><div class="ds" data-i="d1s">Notice to Cure: act within 10 days</div></div></div>
-          <div class="dateitem"><div class="datebadge"><span class="d">1</span><span class="m">Oct</span></div><div><div class="dt" data-i="d2t">Heat season begins</div><div class="ds" data-i="d2s">Oct 1–May 31: heat is required</div></div></div>
-          <div class="dateitem"><div class="datebadge warn"><span class="d">1</span><span class="m" data-i="m_mon">mon</span></div><div><div class="dt" data-i="d3t">Rent due reminder</div><div class="ds" data-i="d3s">A late notice can't come before this</div></div></div>
-          <div class="dateitem"><div class="datebadge"><span class="d">15</span><span class="m" data-i="m_open">open</span></div><div><div class="dt" data-i="d4t">Housing lottery deadlines</div><div class="ds" data-i="d4s">New NYC Housing Connect listings</div></div></div>
-          <p class="demo-note" data-i="demo_dates">Sample dates for demo</p>
+          <h3>📅 <span id="datesTitle">Important dates</span></h3>
+          <p class="sub" id="datesSub">Housing, money, voting, school & work</p>
+          <div id="datesList"></div>
+          <p class="demo-note" id="datesNote">Tap any date for details · verified June 2026</p>
         </div>
       </aside>
 
@@ -418,7 +431,20 @@
   </div>
 </div>
 
+<div class="dlg" id="dateModal" onclick="if(event.target===this)closeDate()">
+  <div class="dlg-card">
+    <button class="dlg-close" onclick="closeDate()">✕</button>
+    <h3 id="dlgTitle"></h3>
+    <div class="when" id="dlgWhen"></div>
+    <div class="dlg-sec"><h4 id="dlgImpH"></h4><p id="dlgImp"></p></div>
+    <div class="dlg-sec"><h4 id="dlgDetH"></h4><p id="dlgDet"></p></div>
+    <div class="dlg-sec"><h4 id="dlgEligH"></h4><p id="dlgElig"></p></div>
+    <div class="dlg-src" id="dlgSrc"></div>
+  </div>
+</div>
+
 <script src="resources.js"></script>
+<script src="dates.js"></script>
 <script>
   const SUM = {
     type:{
@@ -585,7 +611,55 @@
     if(document.getElementById('s-summary').classList.contains('active')) renderSummary();
     if(document.getElementById('s-rights').classList.contains('active')) renderRights();
     if(document.getElementById('s-talk').classList.contains('active')) paintResources();
+    renderDates();
   }
+
+  const DLG_LABELS = {
+    en:{imp:"Why it matters", det:"Details", elig:"Who it's for", src:"Source"},
+    es:{imp:"Por qué importa", det:"Detalles", elig:"Para quién es", src:"Fuente"}
+  };
+  function renderDates(){
+    const box=document.getElementById('datesList'); if(!box) return;
+    const labels=(typeof CASA_DATES_LABELS!=='undefined')?(CASA_DATES_LABELS[LANG]||CASA_DATES_LABELS.en):{};
+    const tEl=document.getElementById('datesTitle'); if(tEl&&labels.title) tEl.textContent=labels.title;
+    const sEl=document.getElementById('datesSub'); if(sEl&&labels.sub) sEl.textContent=labels.sub;
+    const nEl=document.getElementById('datesNote'); if(nEl&&labels.note) nEl.textContent=labels.note;
+    const list=(typeof CASA_DATES!=='undefined')?CASA_DATES:[];
+    const cats=(typeof CASA_DATE_CATS!=='undefined')?CASA_DATE_CATS:{order:[],labels:{}};
+    const catLabels=(cats.labels&&(cats.labels[LANG]||cats.labels.en))||{};
+    let html='';
+    (cats.order||[]).forEach(cat=>{
+      const items=list.filter(d=>d.cat===cat);
+      if(!items.length) return;
+      html+=`<div class="datecat">${esc(catLabels[cat]||cat)}</div>`;
+      items.forEach(d=>{
+        const gi=list.indexOf(d);
+        const cls=d.urgency==='alert'?'datebadge alert':(d.urgency==='warn'?'datebadge warn':'datebadge');
+        const bot=(d.badgeBot&&(d.badgeBot[LANG]||d.badgeBot.en))||'';
+        const title=(d.title&&(d.title[LANG]||d.title.en))||'';
+        const sub=(d.sub&&(d.sub[LANG]||d.sub.en))||'';
+        html+=`<div class="dateitem" onclick="openDate(${gi})"><div class="${cls}"><span class="d">${esc(d.badgeTop)}</span><span class="m">${esc(bot)}</span></div><div><div class="dt">${esc(title)}</div><div class="ds">${esc(sub)}</div></div></div>`;
+      });
+    });
+    box.innerHTML=html;
+  }
+  function openDate(i){
+    const d=(typeof CASA_DATES!=='undefined')?CASA_DATES[i]:null; if(!d) return;
+    const L=DLG_LABELS[LANG]||DLG_LABELS.en;
+    const pick=o=>(o&&(o[LANG]||o.en))||'';
+    const bot=pick(d.badgeBot);
+    document.getElementById('dlgTitle').textContent=pick(d.title);
+    document.getElementById('dlgWhen').textContent=(String(d.badgeTop).replace('–','')+' '+bot).trim()+' · '+pick(d.sub);
+    document.getElementById('dlgImpH').textContent=L.imp;
+    document.getElementById('dlgImp').textContent=pick(d.detail&&d.detail.importance);
+    document.getElementById('dlgDetH').textContent=L.det;
+    document.getElementById('dlgDet').textContent=pick(d.detail&&d.detail.details);
+    document.getElementById('dlgEligH').textContent=L.elig;
+    document.getElementById('dlgElig').textContent=pick(d.detail&&d.detail.eligibility);
+    document.getElementById('dlgSrc').textContent=L.src+': '+(d.source||'');
+    document.getElementById('dateModal').classList.add('show');
+  }
+  function closeDate(){ document.getElementById('dateModal').classList.remove('show'); }
 
   const chatlog=()=>document.getElementById('chatlog');
   function addBubble(text,who){
