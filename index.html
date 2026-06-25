@@ -125,10 +125,21 @@
   textarea:focus{outline:none;border-color:var(--accent)}
   .resource-search{width:100%;border:1.5px solid var(--line);border-radius:30px;padding:11px 16px;font-family:inherit;font-size:14px;background:var(--card);color:var(--ink);margin-bottom:14px}
   .resource-search:focus{outline:none;border-color:var(--accent)}
-  .datecat{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 4px}
-  .datecat:first-child{margin-top:2px}
   .dateitem{cursor:pointer;border-radius:10px;transition:.15s}
   .dateitem:hover{background:var(--accent-soft)}
+  .datechips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .datechip{background:var(--bg);border:1.5px solid var(--line);border-radius:30px;padding:5px 11px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-soft);transition:.15s}
+  .datechip:hover{border-color:var(--accent)}
+  .datechip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep)}
+  .dgroup{border-bottom:1px solid var(--line)}
+  .dgroup:last-child{border-bottom:none}
+  .dgroup-head{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:11px 2px;cursor:pointer;font-family:inherit;text-align:left}
+  .dgroup-t{font-size:12.5px;font-weight:800;color:var(--ink)}
+  .dgroup-n{font-size:10.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:20px;padding:1px 7px}
+  .dgroup-caret{margin-left:auto;color:var(--accent);font-size:11px;transition:.25s}
+  .dgroup.open .dgroup-caret{transform:rotate(180deg)}
+  .dgroup-body{display:none;padding-bottom:6px}
+  .dgroup.open .dgroup-body{display:block}
   .dlg{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(44,42,38,.45);backdrop-filter:blur(2px)}
   .dlg.show{display:flex}
   .dlg-card{background:var(--card);width:100%;max-width:480px;border-radius:22px 22px 0 0;padding:22px 20px 28px;max-height:86vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:slideup .28s ease}
@@ -141,6 +152,10 @@
   .dlg-sec h4{margin:0 0 4px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--accent)}
   .dlg-sec p{margin:0;font-size:14px;color:var(--ink);line-height:1.5}
   .dlg-src{font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
+  .rlinks{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}
+  .rlinks-h{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+  .rlink{display:block;font-size:13px;color:var(--accent-deep);text-decoration:none;padding:4px 0;font-weight:600}
+  .rlink:hover{text-decoration:underline}
   .upload{border:2px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;background:var(--card);cursor:pointer;transition:.2s}
   .upload:hover{border-color:var(--accent);background:var(--accent-soft)}
   .upload .ui{font-size:34px}
@@ -496,7 +511,23 @@
       es:{t:"Privacidad y acoso",s:"Tu derecho a la paz en tu hogar",items:["Por lo general, un casero debe avisar razonablemente antes de entrar a tu apartamento.","El acoso — amenazas, cierres repetidos, cortar servicios para sacarte — es ilegal.","Lleva un registro escrito de los incidentes, con fechas, como evidencia.","Puedes reportar el acoso al 311 y buscar ayuda de una organización de tenants."]}},
     {ic:"💵",
       en:{t:"Rent & affordability",s:"Assistance and your money",items:["Emergency 'One-Shot Deal' grants (HRA) can cover rent arrears for those who qualify.","Some apartments are rent-stabilized, with limits on increases — check your status.","Applying for assistance is free; never pay to access a public program.","Affordable housing lotteries are run through NYC Housing Connect."]},
-      es:{t:"Renta y asequibilidad",s:"Asistencia y tu dinero",items:["Las subvenciones de emergencia 'One-Shot Deal' (HRA) pueden cubrir renta atrasada para quien califica.","Algunos apartamentos son de renta estabilizada, con límites a los aumentos — verifica tu estatus.","Solicitar asistencia es gratis; nunca pagues por acceder a un programa público.","Las loterías de vivienda asequible se manejan por NYC Housing Connect."]}}
+      es:{t:"Renta y asequibilidad",s:"Asistencia y tu dinero",items:["Las subvenciones de emergencia 'One-Shot Deal' (HRA) pueden cubrir renta atrasada para quien califica.","Algunos apartamentos son de renta estabilizada, con límites a los aumentos — verifica tu estatus.","Solicitar asistencia es gratis; nunca pagues por acceder a un programa público.","Las loterías de vivienda asequible se manejan por NYC Housing Connect."]}},
+    {ic:"📜",
+      links:[{label:"Constitution Annotated (constitution.congress.gov)",url:"https://constitution.congress.gov"},{label:"National Archives (archives.gov)",url:"https://www.archives.gov/founding-docs"},{label:"ACLU — Know Your Rights",url:"https://www.aclu.org/know-your-rights"}],
+      en:{t:"Constitutional rights (federal)",s:"The Constitution, Bill of Rights & amendments",items:["The U.S. Constitution and Bill of Rights protect everyone in the country, including non-citizens.","You have the right to free speech, to practice any religion, and to peacefully protest (1st Amendment).","You have the right to remain silent and not answer police questions (5th Amendment).","You have the right to due process and equal protection under the law (14th Amendment)."]},
+      es:{t:"Derechos constitucionales (federal)",s:"La Constitución, la Carta de Derechos y enmiendas",items:["La Constitución de EE. UU. y la Carta de Derechos protegen a todos en el país, incluidos los no ciudadanos.","Tienes derecho a la libertad de expresión, a practicar cualquier religión y a protestar pacíficamente (1.ª Enmienda).","Tienes derecho a guardar silencio y a no responder preguntas de la policía (5.ª Enmienda).","Tienes derecho al debido proceso y a igual protección ante la ley (14.ª Enmienda)."]}},
+    {ic:"🗽",
+      links:[{label:"NY Attorney General (ag.ny.gov)",url:"https://ag.ny.gov"},{label:"NY.gov — state services",url:"https://www.ny.gov"},{label:"NYS Division of Human Rights (dhr.ny.gov)",url:"https://dhr.ny.gov"},{label:"NYC Commission on Human Rights (nyc.gov/cchr)",url:"https://www.nyc.gov/site/cchr/index.page"}],
+      en:{t:"New York State rights",s:"Tenant, worker & consumer protections",items:["New York adds protections beyond federal law for tenants, workers, and consumers.","It's illegal to discriminate in housing, jobs, or public places based on protected traits — including source of income and immigration status.","Workers have rights to minimum wage, paid sick leave, and safe conditions.","NYC has some of the strongest local human-rights protections in the country."]},
+      es:{t:"Derechos del estado de Nueva York",s:"Protecciones de inquilinos, trabajadores y consumidores",items:["Nueva York añade protecciones más allá de la ley federal para inquilinos, trabajadores y consumidores.","Es ilegal discriminar en vivienda, empleo o lugares públicos por rasgos protegidos — incluido fuente de ingreso y estatus migratorio.","Los trabajadores tienen derecho a salario mínimo, días pagados por enfermedad y condiciones seguras.","NYC tiene algunas de las protecciones locales de derechos humanos más fuertes del país."]}},
+    {ic:"🌐",
+      links:[{label:"NY Immigration Coalition (nyic.org)",url:"https://www.nyic.org"},{label:"NYC Office of Immigrant Affairs (nyc.gov/immigrants)",url:"https://www.nyc.gov/site/immigrants/index.page"},{label:"Immigrant Defense Project",url:"https://www.immigrantdefenseproject.org"},{label:"National Immigration Law Center (nilc.org)",url:"https://www.nilc.org"},{label:"ActionNYC — call 311 for free legal help",url:"tel:311"}],
+      en:{t:"Immigrant rights",s:"Your rights regardless of status",items:["You have rights regardless of your immigration status.","You have the right to remain silent, and you don't have to open your door without a judge-signed warrant.","Don't sign anything you don't understand — ask to speak with a lawyer first.","Free, confidential legal help is available; seeking it cannot be used against you."]},
+      es:{t:"Derechos de inmigrantes",s:"Tus derechos sin importar tu estatus",items:["Tienes derechos sin importar tu estatus migratorio.","Tienes derecho a guardar silencio y no tienes que abrir tu puerta sin una orden firmada por un juez.","No firmes nada que no entiendas — pide hablar con un abogado primero.","Hay ayuda legal gratis y confidencial; buscarla no se puede usar en tu contra."]}},
+    {ic:"🏠",
+      links:[{label:"Met Council on Housing (metcouncilonhousing.org)",url:"https://www.metcouncilonhousing.org"},{label:"NYS Homes & Community Renewal — HCR (hcr.ny.gov)",url:"https://hcr.ny.gov"}],
+      en:{t:"Tenant & housing rights",s:"Eviction, repairs & rent regulation",items:["You cannot be evicted without going to court — only a judge can order it.","You have a right to heat, hot water, and repairs, and to report problems without retaliation.","Many tenants qualify for a free lawyer in housing court (Right to Counsel).","Rent-stabilized tenants have renewal rights and limits on rent increases."]},
+      es:{t:"Derechos de inquilinos y vivienda",s:"Desalojo, reparaciones y regulación de renta",items:["No te pueden desalojar sin ir a la corte — solo un juez puede ordenarlo.","Tienes derecho a calefacción, agua caliente y reparaciones, y a reportar problemas sin represalias.","Muchos inquilinos califican para un abogado gratis en la corte de vivienda (Right to Counsel).","Los inquilinos de renta estabilizada tienen derechos de renovación y límites a los aumentos."]}}
   ];
 
   const UI = {
@@ -552,10 +583,8 @@
     if(sb) sb.value = '';
     paintResources();
   }
-  // Called as the user types in the search box.
   function filterResources(){ paintResources(); }
 
-  // Does the actual filtering (by category + search query) and draws the cards.
   function paintResources(){
     const q = (document.getElementById('resourceSearch')?.value || '').trim().toLowerCase();
     const cat = lastTalkCat;
@@ -618,6 +647,10 @@
     en:{imp:"Why it matters", det:"Details", elig:"Who it's for", src:"Source"},
     es:{imp:"Por qué importa", det:"Detalles", elig:"Para quién es", src:"Fuente"}
   };
+  let dateFilter='all';
+  let dateOpen={};
+  function setDateFilter(cat){ dateFilter=cat; if(cat!=='all') dateOpen={[cat]:true}; renderDates(); }
+  function toggleDateCat(cat){ dateOpen[cat]=!dateOpen[cat]; renderDates(); }
   function renderDates(){
     const box=document.getElementById('datesList'); if(!box) return;
     const labels=(typeof CASA_DATES_LABELS!=='undefined')?(CASA_DATES_LABELS[LANG]||CASA_DATES_LABELS.en):{};
@@ -627,21 +660,30 @@
     const list=(typeof CASA_DATES!=='undefined')?CASA_DATES:[];
     const cats=(typeof CASA_DATE_CATS!=='undefined')?CASA_DATE_CATS:{order:[],labels:{}};
     const catLabels=(cats.labels&&(cats.labels[LANG]||cats.labels.en))||{};
-    let html='';
+    const allLabel=(LANG==='es')?'Todas':'All';
+    let chips=`<button class="datechip${dateFilter==='all'?' on':''}" onclick="setDateFilter('all')">${allLabel}</button>`;
     (cats.order||[]).forEach(cat=>{
+      if(!list.some(d=>d.cat===cat)) return;
+      chips+=`<button class="datechip${dateFilter===cat?' on':''}" onclick="setDateFilter('${cat}')">${esc(catLabels[cat]||cat)}</button>`;
+    });
+    let groups='';
+    (cats.order||[]).forEach(cat=>{
+      if(dateFilter!=='all' && cat!==dateFilter) return;
       const items=list.filter(d=>d.cat===cat);
       if(!items.length) return;
-      html+=`<div class="datecat">${esc(catLabels[cat]||cat)}</div>`;
+      const open=!!dateOpen[cat];
+      let body='';
       items.forEach(d=>{
         const gi=list.indexOf(d);
         const cls=d.urgency==='alert'?'datebadge alert':(d.urgency==='warn'?'datebadge warn':'datebadge');
         const bot=(d.badgeBot&&(d.badgeBot[LANG]||d.badgeBot.en))||'';
         const title=(d.title&&(d.title[LANG]||d.title.en))||'';
         const sub=(d.sub&&(d.sub[LANG]||d.sub.en))||'';
-        html+=`<div class="dateitem" onclick="openDate(${gi})"><div class="${cls}"><span class="d">${esc(d.badgeTop)}</span><span class="m">${esc(bot)}</span></div><div><div class="dt">${esc(title)}</div><div class="ds">${esc(sub)}</div></div></div>`;
+        body+=`<div class="dateitem" onclick="openDate(${gi})"><div class="${cls}"><span class="d">${esc(d.badgeTop)}</span><span class="m">${esc(bot)}</span></div><div><div class="dt">${esc(title)}</div><div class="ds">${esc(sub)}</div></div></div>`;
       });
+      groups+=`<div class="dgroup${open?' open':''}"><button class="dgroup-head" onclick="toggleDateCat('${cat}')"><span class="dgroup-t">${esc(catLabels[cat]||cat)}</span><span class="dgroup-n">${items.length}</span><span class="dgroup-caret">▼</span></button><div class="dgroup-body">${body}</div></div>`;
     });
-    box.innerHTML=html;
+    box.innerHTML=`<div class="datechips">${chips}</div>${groups}`;
   }
   function openDate(i){
     const d=(typeof CASA_DATES!=='undefined')?CASA_DATES[i]:null; if(!d) return;
@@ -754,15 +796,20 @@
 
   function renderRights(){
     const wrap=document.getElementById('rightsList');
+    const moreLabel = LANG==='es' ? 'Recursos oficiales' : 'Official resources';
     wrap.innerHTML=RIGHTS.map((r,i)=>{
       const c=r[LANG];
+      const items=c.items.map(x=>`<li>${x}</li>`).join('');
+      const links=(r.links&&r.links.length)
+        ? `<div class="rlinks"><div class="rlinks-h">${moreLabel}</div>`+r.links.map(l=>`<a class="rlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join('')+`</div>`
+        : '';
       return `<div class="acc" id="acc${i}">
         <button class="acc-head" onclick="toggleAcc(${i})">
           <div class="ic">${r.ic}</div>
           <div><div class="t">${c.t}</div><div class="s">${c.s}</div></div>
           <div class="caret">▼</div>
         </button>
-        <div class="acc-body"><ul>${c.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+        <div class="acc-body"><ul>${items}</ul>${links}</div>
       </div>`;
     }).join('');
   }
