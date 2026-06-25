@@ -123,6 +123,8 @@
   .mode .ml{font-size:12.5px;font-weight:700;margin-top:6px;color:var(--ink)}
   textarea{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:14px;font-family:inherit;font-size:15px;resize:none;background:var(--card);color:var(--ink)}
   textarea:focus{outline:none;border-color:var(--accent)}
+  .resource-search{width:100%;border:1.5px solid var(--line);border-radius:30px;padding:11px 16px;font-family:inherit;font-size:14px;background:var(--card);color:var(--ink);margin-bottom:14px}
+  .resource-search:focus{outline:none;border-color:var(--accent)}
   .upload{border:2px dashed var(--line);border-radius:16px;padding:26px 18px;text-align:center;background:var(--card);cursor:pointer;transition:.2s}
   .upload:hover{border-color:var(--accent);background:var(--accent-soft)}
   .upload .ui{font-size:34px}
@@ -358,6 +360,7 @@
     <button class="back" onclick="go('s-connect')">← <span data-i="back">Back</span></button>
     <div class="eyebrow" data-i="t_eye">Talk to someone</div>
     <h2 id="resourceHeading">People who can help — for free.</h2>
+    <input id="resourceSearch" class="resource-search" data-i-ph="search_ph" placeholder="Search by name, language, or keyword…" oninput="filterResources()">
     <div id="resourceList"></div>
     <p class="note" data-i="t_note">Phone numbers verified June 2026. Always confirm hours, as they can change.</p>
     </div>
@@ -477,7 +480,7 @@
       back:"Back",u_eye:"Tell us what's happening",u_h:"What's going on? Take your time.",u_p:"You can type it, take a photo of a paper you received, or pick from common situations.",u_type:"Type it",u_photo:"Photo",u_pick:"Pick",u_ph:"For example: my landlord slipped a paper under my door and I'm scared...",continue:"Continue",up_t:"Take or upload a photo of your notice",up_s:"We'll read it and explain it in plain language.",reading:"Reading your document…",o_evict_t:"I got a notice or eviction paper",o_evict_s:"A letter from my landlord or the court",o_rent_t:"I can't afford my rent",o_rent_s:"I'm behind or about to fall behind",o_unsafe_t:"My apartment is unsafe",o_unsafe_s:"No heat, leaks, mold, repairs ignored",o_shelter_t:"I have nowhere to stay",o_shelter_s:"I need a safe place tonight",
       s_eye:"Here's what this means",explain_more:"Explain in more depth",deep_h:"A fuller explanation",show_options:"Show me what I can do",
       c_eye:"You're not alone",c_h:"Three ways forward. Pick what feels right.",c_p:"There's no wrong choice. Start wherever you're comfortable.",door1t:"Talk to a real person",door1s:"Free legal help & tenant hotlines",door2t:"Know your rights",door2s:"Plain-language guides by type of right",door3t:"What to do next",door3s:"A simple checklist for the next 24–48 hours",c_trust:"These are free, trusted NYC organizations. Many help",c_trust_b:"regardless of immigration status",
-      t_eye:"Talk to someone",t_h:"People who can help — for free.",t_note:"Phone numbers verified June 2026. Always confirm hours, as they can change.",
+      t_eye:"Talk to someone",t_h:"People who can help — for free.",t_note:"Phone numbers verified June 2026. Always confirm hours, as they can change.",search_ph:"Search by name, language, or keyword…",search_none:"No matches — try a different word.",
       rt_eye:"Know your rights",rt_h:"Your rights, by type.",rt_p:"Tap a category to learn more. Everything here applies regardless of immigration status.",
       n_eye:"What to do next",n_h:"Your next 48 hours.",n_p:"Small steps. Tap each one as you go.",ck1t:"Don't panic — and don't move out",ck1s:"A notice is not an order to leave. Staying put protects your rights.",ck2t:"Photograph the notice & envelope",ck2s:"Front and back. Note the date you received it.",ck3t:"Call Legal Aid or the tenant hotline",ck3s:"Tell them you got a notice and the date. They'll guide you.",ck4t:"Write down what the landlord claims",ck4s:"Knowing the exact issue helps you and any advocate respond.",ck5t:"Mark the 10-day deadline",ck5s:"Count from the day you received it. Act before it ends.",n_re:"You've already done the hardest part — you started. One call tomorrow is real progress.",n_getnum:"Get the phone numbers",n_done:"Start over / done for now",
       b_eye:"Browse on your own",b_h:"Housing help, by situation.",b_p:"Pick what's closest to what you're going through.",b1t:"Facing eviction or a notice",b1s:"Rights, the process, who can help",b2t:"Can't afford rent",b2s:"Rental assistance & one-shot deals",b3t:"Unsafe living conditions",b3s:"No heat, mold, repairs — your rights",b4t:"Experiencing homelessness",b4s:"Right to shelter & PATH intake",b5t:"Looking for affordable housing",b5s:"NYC Housing Connect & NYCHA",b6t:"Safety & domestic violence",b6s:"Confidential help & emergency shelter",b7t:"Housing discrimination",b7s:"Treated unfairly? File a free complaint",
@@ -488,7 +491,7 @@
       back:"Atrás",u_eye:"Cuéntanos qué pasa",u_h:"¿Qué está pasando? Tómate tu tiempo.",u_p:"Puedes escribirlo, tomar una foto de un papel que recibiste, o elegir una situación común.",u_type:"Escribir",u_photo:"Foto",u_pick:"Elegir",u_ph:"Por ejemplo: mi casero deslizó un papel bajo mi puerta y tengo miedo...",continue:"Continuar",up_t:"Toma o sube una foto de tu aviso",up_s:"Lo leeremos y lo explicaremos en lenguaje sencillo.",reading:"Leyendo tu documento…",o_evict_t:"Recibí un aviso o papel de desalojo",o_evict_s:"Una carta de mi casero o de la corte",o_rent_t:"No puedo pagar mi renta",o_rent_s:"Estoy atrasado o a punto de atrasarme",o_unsafe_t:"Mi apartamento es inseguro",o_unsafe_s:"Sin calefacción, goteras, moho, reparaciones ignoradas",o_shelter_t:"No tengo dónde quedarme",o_shelter_s:"Necesito un lugar seguro esta noche",
       s_eye:"Esto es lo que significa",explain_more:"Explicar con más detalle",deep_h:"Una explicación más completa",show_options:"Muéstrame qué puedo hacer",
       c_eye:"No estás solo",c_h:"Tres caminos. Elige el que sientas mejor.",c_p:"No hay opción equivocada. Empieza donde te sientas cómodo.",door1t:"Habla con una persona real",door1s:"Ayuda legal gratis y líneas para tenants",door2t:"Conoce tus derechos",door2s:"Guías en lenguaje sencillo por tipo de derecho",door3t:"Qué hacer ahora",door3s:"Una lista simple para las próximas 24–48 horas",c_trust:"Son organizaciones de NYC gratuitas y confiables. Muchas ayudan",c_trust_b:"sin importar el estatus migratorio",
-      t_eye:"Habla con alguien",t_h:"Personas que pueden ayudar — gratis.",t_note:"Números verificados en junio de 2026. Confirma siempre los horarios, pueden cambiar.",
+      t_eye:"Habla con alguien",t_h:"Personas que pueden ayudar — gratis.",t_note:"Números verificados en junio de 2026. Confirma siempre los horarios, pueden cambiar.",search_ph:"Busca por nombre, idioma o palabra clave…",search_none:"Sin resultados — prueba otra palabra.",
       rt_eye:"Conoce tus derechos",rt_h:"Tus derechos, por tipo.",rt_p:"Toca una categoría para saber más. Todo aquí aplica sin importar el estatus migratorio.",
       n_eye:"Qué hacer ahora",n_h:"Tus próximas 48 horas.",n_p:"Pasos pequeños. Toca cada uno a medida que avances.",ck1t:"No entres en pánico — y no te mudes",ck1s:"Un aviso no es una orden de salir. Quedarte protege tus derechos.",ck2t:"Fotografía el aviso y el sobre",ck2s:"Frente y reverso. Anota la fecha en que lo recibiste.",ck3t:"Llama a Legal Aid o a la línea de tenants",ck3s:"Diles que recibiste un aviso y la fecha. Te guiarán.",ck4t:"Escribe lo que alega el casero",ck4s:"Saber el problema exacto te ayuda a ti y a cualquier defensor a responder.",ck5t:"Marca el plazo de 10 días",ck5s:"Cuenta desde el día que lo recibiste. Actúa antes de que termine.",n_re:"Ya hiciste lo más difícil — empezaste. Una llamada mañana es progreso real.",n_getnum:"Obtener los números",n_done:"Empezar de nuevo / listo por ahora",
       b_eye:"Explora por tu cuenta",b_h:"Ayuda de vivienda, por situación.",b_p:"Elige lo más cercano a lo que estás viviendo.",b1t:"Enfrentando desalojo o un aviso",b1s:"Derechos, el proceso, quién ayuda",b2t:"No puedo pagar la renta",b2s:"Asistencia de renta y one-shot deals",b3t:"Condiciones inseguras",b3s:"Sin calefacción, moho, reparaciones — tus derechos",b4t:"Sin hogar",b4s:"Derecho a refugio y admisión PATH",b5t:"Buscando vivienda asequible",b5s:"NYC Housing Connect y NYCHA",b6t:"Seguridad y violencia doméstica",b6s:"Ayuda confidencial y refugio de emergencia",b7t:"Discriminación de vivienda",b7s:"¿Te trataron injustamente? Presenta una queja gratis",
@@ -516,10 +519,28 @@
 
   function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
+  // Called when navigating to the Contacts screen: set the category and clear any old search.
   function renderResources(cat){
     lastTalkCat = cat || 'all';
+    const sb = document.getElementById('resourceSearch');
+    if(sb) sb.value = '';
+    paintResources();
+  }
+  // Called as the user types in the search box.
+  function filterResources(){ paintResources(); }
+
+  // Does the actual filtering (by category + search query) and draws the cards.
+  function paintResources(){
+    const q = (document.getElementById('resourceSearch')?.value || '').trim().toLowerCase();
+    const cat = lastTalkCat;
     const list = (typeof CASA_RESOURCES === 'undefined') ? [] : CASA_RESOURCES;
-    const items = (cat && cat !== 'all') ? list.filter(r => r.cat === cat) : list;
+    let items = (cat && cat !== 'all') ? list.filter(r => r.cat === cat) : list;
+    if(q){
+      items = items.filter(r =>
+        `${r.name||''} ${r.org||''} ${r.desc||''} ${r.languages||''} ${r.cat||''}`
+          .toLowerCase().includes(q)
+      );
+    }
     const labels = (typeof CASA_CATEGORY_LABELS !== 'undefined')
       ? (CASA_CATEGORY_LABELS[LANG] || CASA_CATEGORY_LABELS.en) : {};
     const head = document.getElementById('resourceHeading');
@@ -527,7 +548,7 @@
 
     const box = document.getElementById('resourceList');
     if(!box) return;
-    if(!items.length){ box.innerHTML = '<p>No resources listed yet for this situation.</p>'; return; }
+    if(!items.length){ box.innerHTML = `<p>${(UI[LANG]&&UI[LANG].search_none)||'No matches.'}</p>`; return; }
 
     box.innerHTML = items.map(r => {
       const chips = []
@@ -563,7 +584,7 @@
     document.documentElement.lang = LANG;
     if(document.getElementById('s-summary').classList.contains('active')) renderSummary();
     if(document.getElementById('s-rights').classList.contains('active')) renderRights();
-    if(document.getElementById('s-talk').classList.contains('active')) renderResources(lastTalkCat);
+    if(document.getElementById('s-talk').classList.contains('active')) paintResources();
   }
 
   const chatlog=()=>document.getElementById('chatlog');
