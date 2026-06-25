@@ -17,6 +17,7 @@
     --warm:#e08a3c;
     --warm-soft:#fbeede;
     --danger:#b65b4e;
+    --danger-soft:#f6e3df;
     --shadow:0 6px 24px rgba(60,50,35,.08);
     --shadow-lg:0 18px 50px rgba(60,50,35,.14);
     --r:18px;
@@ -28,6 +29,7 @@
     background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:480px;margin:0 auto;min-height:100vh;position:relative;}
+  body.home-mode .wrap{max-width:1160px;}
   .topbar{
     position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
     padding:14px 18px;background:rgba(251,247,241,.92);backdrop-filter:blur(8px);
@@ -38,9 +40,61 @@
   .beta{font-size:10px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);padding:3px 7px;border-radius:20px;letter-spacing:.5px}
   .lang{margin-left:auto;font-size:13px;color:var(--ink-soft);border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:30px;cursor:pointer;display:flex;align-items:center;gap:5px}
   .lang:hover{border-color:var(--accent)}
+  .lang.activeLang{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-deep)}
   .screen{display:none;padding:22px 18px 120px;animation:fade .4s ease}
   .screen.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  #s-home{padding:0}
+  .dash{display:grid;grid-template-columns:240px minmax(0,1fr) 320px;gap:18px;padding:22px 18px 120px;align-items:start}
+  @media(max-width:980px){
+    .dash{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+    .dash .side{order:2}
+    .dash .center{order:1}
+    .dash .newscol{order:3}
+  }
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 4px;font-size:14px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+  .panel .sub{font-size:11.5px;color:var(--ink-soft);margin:0 0 12px}
+  .side{position:sticky;top:78px}
+  .dateitem{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .dateitem:last-child{border-bottom:none;padding-bottom:0}
+  .datebadge{flex:none;width:42px;height:46px;border-radius:11px;background:var(--accent-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05}
+  .datebadge .d{font-size:17px;font-weight:800;color:var(--accent-deep)}
+  .datebadge .m{font-size:9.5px;font-weight:700;text-transform:uppercase;color:var(--accent)}
+  .datebadge.warn{background:var(--warm-soft)}.datebadge.warn .d{color:#a85f1c}.datebadge.warn .m{color:#c4781f}
+  .datebadge.alert{background:var(--danger-soft)}.datebadge.alert .d{color:#9c4537}.datebadge.alert .m{color:#b65b4e}
+  .dateitem .dt{font-size:13px;font-weight:700;color:var(--ink)}
+  .dateitem .ds{font-size:11.5px;color:var(--ink-soft)}
+  .newsitem{display:block;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+  .newsitem:last-child{border-bottom:none;padding-bottom:0}
+  .newstag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-bottom:6px}
+  .newstag.policy{background:var(--accent-soft);color:var(--accent-deep)}
+  .newstag.fund{background:var(--warm-soft);color:#a85f1c}
+  .newstag.alert{background:var(--danger-soft);color:#9c4537}
+  .newsitem .nh{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.35}
+  .newsitem .nm{font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .maria-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .maria-av{width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg,#3a7d6e,#2f655a);display:grid;place-items:center;font-size:22px;color:#fff;flex:none;box-shadow:var(--shadow)}
+  .maria-name{font-weight:800;font-size:17px}
+  .maria-status{font-size:11.5px;color:var(--accent);display:flex;align-items:center;gap:5px}
+  .maria-status .dotlive{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;animation:beat 2s infinite}
+  .chatbox{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height:440px}
+  .chatlog{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:46vh}
+  .bubble{max-width:84%;padding:11px 14px;border-radius:16px;font-size:14.5px;line-height:1.45;animation:fade .3s ease}
+  .bubble.maria{background:var(--accent-soft);color:var(--ink);border-bottom-left-radius:5px;align-self:flex-start}
+  .bubble.user{background:var(--accent);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px}
+  .chipbtn{background:var(--bg);border:1.5px solid var(--line);border-radius:30px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink);transition:.18s}
+  .chipbtn:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .chatinput{display:flex;gap:8px;border-top:1px solid var(--line);padding:12px;background:var(--card)}
+  .chatinput input{flex:1;border:1.5px solid var(--line);border-radius:30px;padding:11px 15px;font-family:inherit;font-size:14px;background:var(--bg)}
+  .chatinput input:focus{outline:none;border-color:var(--accent);background:#fff}
+  .chatinput .send,.chatinput .attach{flex:none;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:grid;place-items:center;font-family:inherit}
+  .chatinput .send{background:var(--accent);color:#fff}
+  .chatinput .attach{background:var(--bg);border:1.5px solid var(--line)}
+  .typing-b{display:inline-block}
+  .typing-b span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:0 1px;animation:blink 1.2s infinite}
+  .typing-b span:nth-child(2){animation-delay:.2s}.typing-b span:nth-child(3){animation-delay:.4s}
   .steps{display:flex;gap:6px;margin-bottom:22px}
   .steps span{height:4px;flex:1;border-radius:4px;background:var(--line);transition:.4s}
   .steps span.on{background:var(--accent)}
@@ -49,20 +103,13 @@
   h2{font-size:22px;letter-spacing:-.4px;margin:0 0 10px;font-weight:800}
   p{margin:0 0 14px;color:var(--ink-soft)}
   p.lead{color:var(--ink);font-size:17px}
+  .col-center{max-width:520px;margin:0 auto}
   .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;font-family:inherit}
   .btn-primary{background:var(--accent);color:#fff;box-shadow:var(--shadow)}
   .btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
   .btn-ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
   .btn-ghost:hover{border-color:var(--accent)}
-  .btn-row{display:flex;gap:10px;margin-top:18px}
-  .btn-row .btn{margin-top:0}
   .textlink{background:none;border:none;color:var(--ink-soft);font-size:14px;cursor:pointer;font-family:inherit;text-decoration:underline;padding:8px}
-  .reassure-hero{background:linear-gradient(160deg,#3a7d6e,#2f655a);color:#fff;border-radius:24px;padding:30px 24px;box-shadow:var(--shadow-lg);margin-bottom:8px}
-  .reassure-hero .eyebrow{color:#bfe3d9}
-  .reassure-hero h1{color:#fff}
-  .reassure-hero p{color:#dcefe9}
-  .pulse{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;margin-bottom:18px;font-size:26px;animation:beat 2.6s ease-in-out infinite}
-  @keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.28)}50%{box-shadow:0 0 0 16px rgba(255,255,255,0)}}
   .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;cursor:pointer;transition:.2s;font-family:inherit}
   .opt:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
   .opt .ic{width:44px;height:44px;flex:none;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:22px}
@@ -93,6 +140,15 @@
   .factline b{color:var(--ink)}
   .reassure-pill{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:14px;padding:14px;margin:4px 0 0;color:var(--accent-deep)}
   .reassure-pill .ic{font-size:20px}
+  .toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .tool{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--line);border-radius:30px;padding:8px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink);transition:.18s}
+  .tool:hover{border-color:var(--accent)}
+  .tool.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-deep)}
+  .deep{display:none;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:16px;margin-bottom:16px;animation:fade .3s ease}
+  .deep.show{display:block}
+  .deep h4{margin:0 0 8px;font-size:14px;color:var(--accent-deep)}
+  .deep p{font-size:14px;color:var(--ink);margin:0 0 10px}
+  .deep p:last-child{margin-bottom:0}
   .door{display:flex;gap:14px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;text-decoration:none;color:inherit;cursor:pointer;transition:.2s;width:100%;text-align:left;font-family:inherit}
   .door:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
   .door .di{width:48px;height:48px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:24px}
@@ -104,9 +160,21 @@
   .res{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
   .res h3{margin:0 0 4px;font-size:16px}
   .res .meta{font-size:13px;color:var(--ink-soft);margin-bottom:8px}
-  .res .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .res .chips2{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
   .chip{font-size:11px;background:var(--bg);border:1px solid var(--line);padding:3px 8px;border-radius:20px;color:var(--ink-soft)}
   .res .call{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 14px;border-radius:10px}
+  .acc{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;overflow:hidden}
+  .acc-head{display:flex;align-items:center;gap:13px;padding:16px;cursor:pointer;font-family:inherit;width:100%;background:none;border:none;text-align:left}
+  .acc-head .ic{width:42px;height:42px;flex:none;border-radius:12px;background:var(--accent-soft);display:grid;place-items:center;font-size:20px}
+  .acc-head .t{font-weight:800;font-size:15.5px;color:var(--ink)}
+  .acc-head .s{font-size:12.5px;color:var(--ink-soft)}
+  .acc-head .caret{margin-left:auto;color:var(--accent);transition:.25s;font-size:14px}
+  .acc.open .caret{transform:rotate(180deg)}
+  .acc-body{display:none;padding:0 16px 16px;animation:fade .25s ease}
+  .acc.open .acc-body{display:block}
+  .acc-body ul{margin:0;padding-left:18px}
+  .acc-body li{font-size:13.5px;color:var(--ink);margin-bottom:8px}
+  .acc-body li:last-child{margin-bottom:0}
   .check{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer}
   .check .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--accent);flex:none;display:grid;place-items:center;color:#fff;font-weight:800;transition:.2s}
   .check.done .box{background:var(--accent)}
@@ -118,60 +186,100 @@
   .trust{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:18px;font-size:13px;color:var(--ink-soft)}
   .trust .ic{font-size:18px}
   .nav{position:sticky;bottom:0;z-index:30;display:flex;background:rgba(251,247,241,.95);backdrop-filter:blur(10px);border-top:1px solid var(--line);max-width:480px;margin:0 auto}
+  body.home-mode .nav{max-width:1160px}
   .nav button{flex:1;background:none;border:none;padding:10px 0 14px;cursor:pointer;color:var(--ink-soft);font-family:inherit;font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px}
   .nav button .ni{font-size:20px}
   .nav button.on{color:var(--accent)}
   .note{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:20px;opacity:.8}
-  .typing{display:inline-block}
-  .typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:0 1px;animation:blink 1.2s infinite}
-  .typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+  .demo-note{font-size:10.5px;color:var(--ink-soft);opacity:.75;margin-top:10px;text-align:center;font-style:italic}
+  @keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(58,125,110,.35)}50%{box-shadow:0 0 0 7px rgba(58,125,110,0)}}
   @keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
 </style>
 </head>
-<body>
+<body class="home-mode">
 <div class="wrap">
   <div class="topbar">
     <div class="logo"><span class="dot">C</span>Casa <span class="beta">BETA</span></div>
-    <button class="lang" onclick="cycleLang()">🌐 <span id="langLabel">English</span></button>
+    <button class="lang activeLang" id="langBtn" onclick="toggleLang()">🌐 <span id="langLabel">English</span></button>
   </div>
 
   <section class="screen active" id="s-home">
-    <div class="reassure-hero">
-      <div class="pulse">🫶</div>
-      <div class="eyebrow">You're in the right place</div>
-      <h1>Whatever's happening, you have options.</h1>
-      <p class="lead" style="color:#eaf5f1">Tell us what's going on in your own words. No accounts. No judgment. We'll help you find a way forward.</p>
+    <div class="dash">
+      <aside class="side">
+        <div class="panel">
+          <h3>📅 <span data-i="dates_title">Important dates</span></h3>
+          <p class="sub" data-i="dates_sub">Housing deadlines to know</p>
+          <div class="dateitem"><div class="datebadge alert"><span class="d">10</span><span class="m" data-i="m_days">days</span></div><div><div class="dt" data-i="d1t">Respond to a notice</div><div class="ds" data-i="d1s">Notice to Cure: act within 10 days</div></div></div>
+          <div class="dateitem"><div class="datebadge"><span class="d">1</span><span class="m">Oct</span></div><div><div class="dt" data-i="d2t">Heat season begins</div><div class="ds" data-i="d2s">Oct 1–May 31: heat is required</div></div></div>
+          <div class="dateitem"><div class="datebadge warn"><span class="d">1</span><span class="m" data-i="m_mon">mon</span></div><div><div class="dt" data-i="d3t">Rent due reminder</div><div class="ds" data-i="d3s">A late notice can't come before this</div></div></div>
+          <div class="dateitem"><div class="datebadge"><span class="d">15</span><span class="m" data-i="m_open">open</span></div><div><div class="dt" data-i="d4t">Housing lottery deadlines</div><div class="ds" data-i="d4s">New NYC Housing Connect listings</div></div></div>
+          <p class="demo-note" data-i="demo_dates">Sample dates for demo</p>
+        </div>
+      </aside>
+
+      <div class="center">
+        <div class="maria-head">
+          <div class="maria-av">👩🏽</div>
+          <div>
+            <div class="maria-name">Maria</div>
+            <div class="maria-status"><span class="dotlive"></span><span data-i="maria_status">Here to help · free & private</span></div>
+          </div>
+        </div>
+        <div class="chatbox">
+          <div class="chatlog" id="chatlog"></div>
+          <div class="chips" id="chatchips">
+            <button class="chipbtn" onclick="mariaPick('evict')" data-i="c_evict">📨 I got a notice</button>
+            <button class="chipbtn" onclick="mariaPick('rent')" data-i="c_rent">💵 Can't afford rent</button>
+            <button class="chipbtn" onclick="mariaPick('unsafe')" data-i="c_unsafe">🛠️ Unsafe apartment</button>
+            <button class="chipbtn" onclick="mariaPick('shelter')" data-i="c_shelter">🏠 Nowhere to stay</button>
+          </div>
+          <div class="chatinput">
+            <button class="attach" title="Photo" onclick="mariaPhoto()">📷</button>
+            <input id="chatField" data-i-ph="chat_ph" placeholder="Tell me what's going on…" onkeydown="if(event.key==='Enter')mariaSend()">
+            <button class="send" onclick="mariaSend()">➤</button>
+          </div>
+        </div>
+        <div class="trust">
+          <span class="ic">🔒</span>
+          <div><b style="color:var(--ink)" data-i="trust_b">Safe to use.</b> <span data-i="trust_t">We don't ask for your name, immigration status, or address. Nothing you type is shared with the city or anyone else.</span></div>
+        </div>
+      </div>
+
+      <aside class="newscol">
+        <div class="panel">
+          <h3>📰 <span data-i="news_title">Important news</span></h3>
+          <p class="sub" data-i="news_sub">NYC housing alerts</p>
+          <a class="newsitem"><span class="newstag fund" data-i="n1tag">Funding</span><div class="nh" data-i="n1h">New rental assistance funds released for arrears</div><div class="nm" data-i="n1m">Apply early through ACCESS HRA</div></a>
+          <a class="newsitem"><span class="newstag policy" data-i="n2tag">Rights</span><div class="nh" data-i="n2h">Right to Counsel expands free housing-court lawyers</div><div class="nm" data-i="n2m">More tenants now qualify</div></a>
+          <a class="newsitem"><span class="newstag alert" data-i="n3tag">Alert</span><div class="nh" data-i="n3h">Heat complaints rising — know the minimums</div><div class="nm" data-i="n3m">Report no-heat to 311 right away</div></a>
+          <a class="newsitem"><span class="newstag policy" data-i="n4tag">Housing</span><div class="nh" data-i="n4h">New affordable lotteries open on Housing Connect</div><div class="nm" data-i="n4m">Free to apply — never pay a fee</div></a>
+          <p class="demo-note" data-i="demo_news">Sample headlines for demo</p>
+        </div>
+      </aside>
     </div>
-    <button class="btn btn-primary" style="margin-top:18px" onclick="go('s-understand')">Get help now →</button>
-    <button class="btn btn-ghost" style="margin-top:10px" onclick="go('s-browse')">Browse resources on my own</button>
-    <div class="trust">
-      <span class="ic">🔒</span>
-      <div><b style="color:var(--ink)">Safe to use.</b> We don't ask for your name, immigration status, or address. Nothing you type is shared with the city or anyone else.</div>
-    </div>
-    <p class="note">A free tool for NYC. Currently focused on housing — more help coming soon.</p>
   </section>
 
   <section class="screen" id="s-understand">
+    <div class="col-center">
     <div class="steps"><span class="on"></span><span></span><span></span><span></span></div>
-    <button class="back" onclick="go('s-home')">← Back</button>
-    <div class="eyebrow">Tell us what's happening</div>
-    <h2>What's going on? Take your time.</h2>
-    <p>You can type it, take a photo of a paper you received, or pick from common situations.</p>
+    <button class="back" onclick="go('s-home')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="u_eye">Tell us what's happening</div>
+    <h2 data-i="u_h">What's going on? Take your time.</h2>
+    <p data-i="u_p">You can type it, take a photo of a paper you received, or pick from common situations.</p>
     <div class="modes">
-      <div class="mode sel" id="m-type" onclick="setMode('type')"><div class="mi">⌨️</div><div class="ml">Type it</div></div>
-      <div class="mode" id="m-photo" onclick="setMode('photo')"><div class="mi">📷</div><div class="ml">Photo</div></div>
-      <div class="mode" id="m-pick" onclick="setMode('pick')"><div class="mi">👆</div><div class="ml">Pick</div></div>
+      <div class="mode sel" id="m-type" onclick="setMode('type')"><div class="mi">⌨️</div><div class="ml" data-i="u_type">Type it</div></div>
+      <div class="mode" id="m-photo" onclick="setMode('photo')"><div class="mi">📷</div><div class="ml" data-i="u_photo">Photo</div></div>
+      <div class="mode" id="m-pick" onclick="setMode('pick')"><div class="mi">👆</div><div class="ml" data-i="u_pick">Pick</div></div>
     </div>
     <div id="mode-type">
-      <textarea id="situationText" rows="4" placeholder="For example: my landlord slipped a paper under my door and I'm scared I'll lose my apartment..."></textarea>
-      <button class="btn btn-primary" style="margin-top:12px" onclick="analyze('type')">Continue →</button>
-      <button class="textlink" style="display:block;margin:6px auto 0" onclick="prefill()">Use the example above</button>
+      <textarea id="situationText" rows="4" data-i-ph="u_ph" placeholder="For example: my landlord slipped a paper under my door and I'm scared..."></textarea>
+      <button class="btn btn-primary" style="margin-top:12px" onclick="analyze('type')"><span data-i="continue">Continue</span> →</button>
     </div>
     <div id="mode-photo" style="display:none">
       <div class="upload" id="uploadBox" onclick="simulatePhoto()">
         <div class="ui">📄</div>
-        <p style="margin:10px 0 2px;color:var(--ink);font-weight:700">Take or upload a photo of your notice</p>
-        <p style="font-size:13px;margin:0">We'll read it and explain it in plain language.</p>
+        <p style="margin:10px 0 2px;color:var(--ink);font-weight:700" data-i="up_t">Take or upload a photo of your notice</p>
+        <p style="font-size:13px;margin:0" data-i="up_s">We'll read it and explain it in plain language.</p>
       </div>
       <div id="docArea" style="display:none;margin-top:14px">
         <div class="doc-preview" id="docPreview">
@@ -180,186 +288,395 @@
           NEW YORK COUNTY · HOUSING<br><br>
           <b>TEN (10) DAY NOTICE TO CURE</b><br><br>
           TO: Tenant in possession<br>
-          You are hereby notified that you have violated a substantial obligation of your tenancy in that...<br><br>
-          You have TEN (10) DAYS from receipt to cure said default, in default of which the Landlord shall elect to terminate...
+          You are hereby notified that you have violated a substantial obligation of your tenancy...<br><br>
+          You have TEN (10) DAYS from receipt to cure said default...
         </div>
-        <p style="text-align:center;font-size:13px;margin-top:10px" id="readStatus"><span class="typing"><span></span><span></span><span></span></span> Reading your document…</p>
+        <p style="text-align:center;font-size:13px;margin-top:10px" id="readStatus"><span class="typing-b"><span></span><span></span><span></span></span> <span data-i="reading">Reading your document…</span></p>
       </div>
     </div>
     <div id="mode-pick" style="display:none">
-      <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t">I got a notice or eviction paper</div><div class="s">A letter from my landlord or the court</div></div><div class="arr">→</div></button>
-      <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t">I can't afford my rent</div><div class="s">I'm behind or about to fall behind</div></div><div class="arr">→</div></button>
-      <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t">My apartment is unsafe</div><div class="s">No heat, leaks, mold, repairs ignored</div></div><div class="arr">→</div></button>
-      <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t">I have nowhere to stay</div><div class="s">I need a safe place tonight</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t" data-i="o_evict_t">I got a notice or eviction paper</div><div class="s" data-i="o_evict_s">A letter from my landlord or the court</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t" data-i="o_rent_t">I can't afford my rent</div><div class="s" data-i="o_rent_s">I'm behind or about to fall behind</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t" data-i="o_unsafe_t">My apartment is unsafe</div><div class="s" data-i="o_unsafe_s">No heat, leaks, mold, repairs ignored</div></div><div class="arr">→</div></button>
+      <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t" data-i="o_shelter_t">I have nowhere to stay</div><div class="s" data-i="o_shelter_s">I need a safe place tonight</div></div><div class="arr">→</div></button>
+    </div>
     </div>
   </section>
 
   <section class="screen" id="s-summary">
+    <div class="col-center">
     <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
-    <button class="back" onclick="go('s-understand')">← Back</button>
-    <div class="eyebrow">Here's what this means</div>
-    <h2 id="sumTitle">Let's break it down.</h2>
+    <button class="back" onclick="go('s-home')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="s_eye">Here's what this means</div>
+    <h2 id="sumTitle">—</h2>
+    <div class="toolbar">
+      <button class="tool" id="btnDeep" onclick="toggleDeep()">📖 <span data-i="explain_more">Explain in more depth</span></button>
+      <button class="tool" id="btnTrans" onclick="toggleLang()">🌐 <span id="transLabel">Español</span></button>
+    </div>
     <div class="summary-card">
-      <span class="tag amber" id="sumTag">⏳ Time-sensitive</span>
+      <span class="tag amber" id="sumTag">—</span>
       <p class="lead" id="sumPlain" style="margin-bottom:18px"></p>
       <div id="sumFacts"></div>
+    </div>
+    <div class="deep" id="deepBox">
+      <h4 data-i="deep_h">A fuller explanation</h4>
+      <div id="deepBody"></div>
     </div>
     <div class="reassure-pill">
       <span class="ic">💚</span>
       <div id="sumReassure"></div>
     </div>
-    <button class="btn btn-primary" style="margin-top:18px" onclick="go('s-connect')">Show me what I can do →</button>
+    <button class="btn btn-primary" style="margin-top:18px" onclick="go('s-connect')"><span data-i="show_options">Show me what I can do</span> →</button>
+    </div>
   </section>
 
   <section class="screen" id="s-connect">
+    <div class="col-center">
     <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div>
-    <button class="back" onclick="go('s-summary')">← Back</button>
-    <div class="eyebrow">You're not alone</div>
-    <h2>Three ways forward. Pick what feels right.</h2>
-    <p>There's no wrong choice. Start wherever you're comfortable.</p>
-    <button class="door call" onclick="go('s-talk')">
+    <button class="back" onclick="go('s-summary')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="c_eye">You're not alone</div>
+    <h2 data-i="c_h">Three ways forward. Pick what feels right.</h2>
+    <p data-i="c_p">There's no wrong choice. Start wherever you're comfortable.</p>
+    <button class="door call" onclick="renderResources(catFor(currentKey)); go('s-talk')">
       <div class="di">📞</div>
-      <div><div class="dt">Talk to a real person</div><div class="ds">Free legal help & tenant hotlines — people who do this every day</div></div>
+      <div><div class="dt" data-i="door1t">Talk to a real person</div><div class="ds" data-i="door1s">Free legal help & tenant hotlines</div></div>
     </button>
     <button class="door rights" onclick="go('s-rights')">
       <div class="di">⚖️</div>
-      <div><div class="dt">Know your rights</div><div class="ds">A plain-language guide for your exact situation</div></div>
+      <div><div class="dt" data-i="door2t">Know your rights</div><div class="ds" data-i="door2s">Plain-language guides by type of right</div></div>
     </button>
     <button class="door next" onclick="go('s-next')">
       <div class="di">✅</div>
-      <div><div class="dt">What to do next</div><div class="ds">A simple checklist for the next 24–48 hours</div></div>
+      <div><div class="dt" data-i="door3t">What to do next</div><div class="ds" data-i="door3s">A simple checklist for the next 24–48 hours</div></div>
     </button>
-    <div class="trust"><span class="ic">🤝</span><div>These are free, trusted NYC organizations. Many help <b style="color:var(--ink)">regardless of immigration status</b>.</div></div>
+    <div class="trust"><span class="ic">🤝</span><div><span data-i="c_trust">These are free, trusted NYC organizations. Many help</span> <b style="color:var(--ink)" data-i="c_trust_b">regardless of immigration status</b>.</div></div>
+    </div>
   </section>
 
   <section class="screen" id="s-talk">
-    <button class="back" onclick="go('s-connect')">← Back</button>
-    <div class="eyebrow">Talk to someone</div>
-    <h2>People who can help — for free.</h2>
-    <div class="res">
-      <h3>Legal Aid Society — Housing Help</h3>
-      <div class="meta">Free legal representation for tenants facing eviction</div>
-      <div class="chips"><span class="chip">English</span><span class="chip">Español</span><span class="chip">中文</span><span class="chip">No status check</span></div>
-      <a class="call" href="tel:2125774000">📞 (212) 577-3300</a>
+    <div class="col-center">
+    <button class="back" onclick="go('s-connect')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="t_eye">Talk to someone</div>
+    <h2 id="resourceHeading">People who can help — for free.</h2>
+    <div id="resourceList"></div>
+    <p class="note" data-i="t_note">Phone numbers verified June 2026. Always confirm hours, as they can change.</p>
     </div>
-    <div class="res">
-      <h3>Met Council on Housing — Tenant Hotline</h3>
-      <div class="meta">Advice on your rights, repairs, and rent. Wed & Fri 1:30–5pm</div>
-      <div class="chips"><span class="chip">English</span><span class="chip">Español</span></div>
-      <a class="call" href="tel:2129799772">📞 (212) 979-0611</a>
-    </div>
-    <div class="res">
-      <h3>BronxWorks — Eviction Prevention</h3>
-      <div class="meta">Help with rent arrears, applications, and case support</div>
-      <div class="chips"><span class="chip">Walk-in</span><span class="chip">Español</span><span class="chip">Bronx</span></div>
-      <a class="call" href="tel:7185086936">📞 (718) 508-3000</a>
-    </div>
-    <div class="res">
-      <h3>NYC Tenant Helpline (311)</h3>
-      <div class="meta">City line for housing questions & complaints — 24/7</div>
-      <div class="chips"><span class="chip">200+ languages</span><span class="chip">24/7</span></div>
-      <a class="call" href="tel:311">📞 311</a>
-    </div>
-    <p class="note">Phone numbers shown are for demonstration. Real numbers verified before launch.</p>
   </section>
 
   <section class="screen" id="s-rights">
-    <button class="back" onclick="go('s-connect')">← Back</button>
-    <div class="eyebrow">Know your rights</div>
-    <h2>What a Notice to Cure really means.</h2>
-    <div class="summary-card">
-      <div class="factline"><span class="fi">①</span><div><b>It is not an eviction.</b> No one can remove you from your home without a court case and a judge's order. A notice is the very beginning of a process.</div></div>
-      <div class="factline"><span class="fi">②</span><div><b>You have the right to "cure."</b> This notice gives you 10 days to fix the issue the landlord claims. If you fix it, the matter can end there.</div></div>
-      <div class="factline"><span class="fi">③</span><div><b>You have the right to a lawyer.</b> In NYC, many tenants qualify for a <i>free</i> lawyer in housing court through the Right to Counsel law.</div></div>
-      <div class="factline"><span class="fi">④</span><div><b>Your status doesn't matter here.</b> Tenant protections apply to everyone, regardless of immigration status. You cannot be reported for using these rights.</div></div>
-      <div class="factline"><span class="fi">⑤</span><div><b>Keep everything.</b> Save the notice, envelopes, texts, and receipts. Photograph them. They protect you later.</div></div>
+    <div class="col-center">
+    <button class="back" onclick="go('s-connect')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="rt_eye">Know your rights</div>
+    <h2 data-i="rt_h">Your rights, by type.</h2>
+    <p data-i="rt_p">Tap a category to learn more. Everything here applies regardless of immigration status.</p>
+    <div id="rightsList"></div>
     </div>
-    <button class="btn btn-primary" onclick="go('s-next')">Okay — what do I do next? →</button>
   </section>
 
   <section class="screen" id="s-next">
-    <button class="back" onclick="go('s-connect')">← Back</button>
-    <div class="eyebrow">What to do next</div>
-    <h2>Your next 48 hours.</h2>
-    <p>Small steps. Tap each one as you go.</p>
-    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Don't panic — and don't move out<div class="cs">A notice is not an order to leave. Staying put protects your rights.</div></div></div>
-    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Photograph the notice & envelope<div class="cs">Front and back. Note the date you received it.</div></div></div>
-    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Call Legal Aid or the tenant hotline<div class="cs">Tell them you got a Notice to Cure and the date. They'll guide you.</div></div></div>
-    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Write down what the landlord claims<div class="cs">Knowing the exact issue helps you and any advocate respond.</div></div></div>
-    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct">Mark the 10-day deadline<div class="cs">Count from the day you received it. Act before it ends.</div></div></div>
-    <div class="reassure-pill" style="margin-top:18px"><span class="ic">🌱</span><div>You've already done the hardest part — you started. One call tomorrow is real progress.</div></div>
-    <button class="btn btn-ghost" style="margin-top:18px" onclick="go('s-talk')">📞 Get the phone numbers</button>
-    <button class="btn btn-primary" style="margin-top:10px" onclick="go('s-home')">Start over / done for now</button>
+    <div class="col-center">
+    <button class="back" onclick="go('s-connect')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="n_eye">What to do next</div>
+    <h2 data-i="n_h">Your next 48 hours.</h2>
+    <p data-i="n_p">Small steps. Tap each one as you go.</p>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct" data-i="ck1t">Don't panic — and don't move out<div class="cs" data-i="ck1s">A notice is not an order to leave. Staying put protects your rights.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct" data-i="ck2t">Photograph the notice & envelope<div class="cs" data-i="ck2s">Front and back. Note the date you received it.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct" data-i="ck3t">Call Legal Aid or the tenant hotline<div class="cs" data-i="ck3s">Tell them you got a notice and the date. They'll guide you.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct" data-i="ck4t">Write down what the landlord claims<div class="cs" data-i="ck4s">Knowing the exact issue helps you and any advocate respond.</div></div></div>
+    <div class="check" onclick="toggleCheck(this)"><div class="box">✓</div><div class="ct" data-i="ck5t">Mark the 10-day deadline<div class="cs" data-i="ck5s">Count from the day you received it. Act before it ends.</div></div></div>
+    <div class="reassure-pill" style="margin-top:18px"><span class="ic">🌱</span><div data-i="n_re">You've already done the hardest part — you started. One call tomorrow is real progress.</div></div>
+    <button class="btn btn-ghost" style="margin-top:18px" onclick="renderResources(catFor(currentKey)); go('s-talk')">📞 <span data-i="n_getnum">Get the phone numbers</span></button>
+    <button class="btn btn-primary" style="margin-top:10px" onclick="go('s-home')" data-i="n_done">Start over / done for now</button>
+    </div>
   </section>
 
   <section class="screen" id="s-browse">
-    <button class="back" onclick="go('s-home')">← Back</button>
-    <div class="eyebrow">Browse on your own</div>
-    <h2>Housing help, by situation.</h2>
-    <p>Pick what's closest to what you're going through.</p>
-    <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t">Facing eviction or a notice</div><div class="s">Rights, the process, who can help</div></div><div class="arr">→</div></button>
-    <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t">Can't afford rent</div><div class="s">Rental assistance & one-shot deals</div></div><div class="arr">→</div></button>
-    <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t">Unsafe living conditions</div><div class="s">No heat, mold, repairs — your rights</div></div><div class="arr">→</div></button>
-    <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t">Experiencing homelessness</div><div class="s">Right to shelter & PATH intake</div></div><div class="arr">→</div></button>
-    <button class="opt" onclick="analyze('affordable')"><div class="ic">🏗️</div><div><div class="t">Looking for affordable housing</div><div class="s">NYC Housing Connect & NYCHA</div></div><div class="arr">→</div></button>
-    <button class="opt"><div class="ic">🛡️</div><div><div class="t">Safety & housing (DV)</div><div class="s">Confidential, safe options</div></div><div class="arr">→</div></button>
-    <p class="note">More categories — healthcare, legal, jobs — coming after housing.</p>
+    <div class="col-center">
+    <button class="back" onclick="go('s-home')">← <span data-i="back">Back</span></button>
+    <div class="eyebrow" data-i="b_eye">Browse on your own</div>
+    <h2 data-i="b_h">Housing help, by situation.</h2>
+    <p data-i="b_p">Pick what's closest to what you're going through.</p>
+    <button class="opt" onclick="analyze('evict')"><div class="ic">📨</div><div><div class="t" data-i="b1t">Facing eviction or a notice</div><div class="s" data-i="b1s">Rights, the process, who can help</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('rent')"><div class="ic">💵</div><div><div class="t" data-i="b2t">Can't afford rent</div><div class="s" data-i="b2s">Rental assistance & one-shot deals</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('unsafe')"><div class="ic">🛠️</div><div><div class="t" data-i="b3t">Unsafe living conditions</div><div class="s" data-i="b3s">No heat, mold, repairs — your rights</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('shelter')"><div class="ic">🏠</div><div><div class="t" data-i="b4t">Experiencing homelessness</div><div class="s" data-i="b4s">Right to shelter & PATH intake</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('affordable')"><div class="ic">🏗️</div><div><div class="t" data-i="b5t">Looking for affordable housing</div><div class="s" data-i="b5s">NYC Housing Connect & NYCHA</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('dv')"><div class="ic">🛡️</div><div><div class="t" data-i="b6t">Safety & domestic violence</div><div class="s" data-i="b6s">Confidential help & emergency shelter</div></div><div class="arr">→</div></button>
+    <button class="opt" onclick="analyze('discrimination')"><div class="ic">⚖️</div><div><div class="t" data-i="b7t">Housing discrimination</div><div class="s" data-i="b7s">Treated unfairly? File a free complaint</div></div><div class="arr">→</div></button>
+    </div>
   </section>
 
   <div class="nav">
-    <button id="n-home" class="on" onclick="go('s-home')"><span class="ni">🏠</span>Home</button>
-    <button id="n-browse" onclick="go('s-browse')"><span class="ni">🔍</span>Browse</button>
-    <button id="n-help" onclick="go('s-understand')"><span class="ni">💬</span>Get help</button>
-    <button id="n-saved" onclick="go('s-talk')"><span class="ni">📞</span>Contacts</button>
+    <button id="n-home" class="on" onclick="go('s-home')"><span class="ni">🏠</span><span data-i="nav_home">Home</span></button>
+    <button id="n-browse" onclick="go('s-browse')"><span class="ni">🔍</span><span data-i="nav_browse">Browse</span></button>
+    <button id="n-help" onclick="go('s-understand')"><span class="ni">💬</span><span data-i="nav_help">Get help</span></button>
+    <button id="n-rights" onclick="go('s-rights')"><span class="ni">⚖️</span><span data-i="nav_rights">Rights</span></button>
+    <button id="n-saved" onclick="renderResources('all'); go('s-talk')"><span class="ni">📞</span><span data-i="nav_contacts">Contacts</span></button>
   </div>
 </div>
 
+<script src="resources.js"></script>
 <script>
   const SUM = {
-    type:{title:"This looks like a Notice to Cure.",tag:"⏳ Time-sensitive · 10 days",plain:"From what you described, your landlord gave you a <b>Notice to Cure</b> — a paper that claims you broke a rule in your lease. It is <b>not</b> an eviction. It's the first step of a process, and you have time and options.",reassure:"A notice is not an eviction. You have rights, and people do this for free every day. Let's take it one step at a time.",facts:[["📅","<b>You have ~10 days</b> to respond or fix the issue."],["⚖️","<b>This is not an eviction order.</b> Only a judge can order that, after a court case."],["🆓","<b>You may qualify for a free lawyer</b> through NYC's Right to Counsel."]]},
-    evict:{title:"Facing a notice or eviction.",tag:"⏳ Time-sensitive",plain:"Getting a notice is frightening, but it's the <b>beginning</b> of a process — not the end. Nothing happens overnight, and you have real protections.",reassure:"You can't be removed without a court case and a judge's order. You have time. Let's find your next step.",facts:[["📅","<b>Deadlines matter</b> — but missing one is rarely the end. Act soon, not in panic."],["⚖️","<b>Only a court</b> can order an eviction, never the landlord directly."],["🆓","<b>Free legal help</b> exists for exactly this."]]},
-    rent:{title:"Behind on rent.",tag:"💵 Help is available",plain:"Falling behind on rent is one of the most common situations in NYC — and there are <b>specific programs</b> built to help, including emergency 'one-shot deal' grants.",reassure:"Owing rent does not mean losing your home. Many people catch up with help they didn't know existed. Let's find it.",facts:[["💰","<b>One-Shot Deal (HRA)</b> can cover rent arrears in an emergency."],["📝","<b>You apply through ACCESS HRA</b> — advocates can help you do it."],["🛡️","<b>Applying can pause</b> some eviction steps. It's worth doing early."]]},
-    unsafe:{title:"Unsafe living conditions.",tag:"🛠️ Your landlord's duty",plain:"Heat, hot water, and safe repairs are your <b>legal right</b> — not favors. Your landlord must provide them, and the city can enforce it.",reassure:"You don't have to live like this, and asking for repairs is your right. Reporting it cannot get you legally evicted.",facts:[["🔥","<b>Heat season</b> (Oct 1–May 31) requires set minimum temperatures."],["📞","<b>Call 311</b> to file a complaint and create an official record."],["🚫","<b>Retaliation is illegal</b> — a landlord can't punish you for reporting."]]},
-    shelter:{title:"You need a safe place.",tag:"🏠 Right to shelter",plain:"In New York City, you have a <b>legal right to shelter</b>. No one should sleep on the street tonight, and there are people whose job is to help you right now.",reassure:"You have a right to a safe place tonight. You are not a burden — this help exists for exactly this moment.",facts:[["🛏️","<b>NYC has a legal right to shelter</b> for those who need it."],["📍","<b>PATH (Bronx)</b> is the intake center for families with children — open 24/7."],["📞","<b>Call 311</b> any hour to be connected to intake."]]},
-    affordable:{title:"Finding affordable housing.",tag:"🏗️ Take it step by step",plain:"Affordable housing in NYC mostly runs through <b>lotteries and waitlists</b>. It takes patience, but getting your name in early is the most important move — and it's free to apply.",reassure:"It can feel slow, but every application is a real chance. Getting registered today puts you in the running. Let's start.",facts:[["🎟️","<b>NYC Housing Connect</b> lists affordable apartment lotteries you can apply to."],["📋","<b>NYCHA & Section 8</b> have waitlists — getting on them early matters most."],["🆓","<b>Applying is always free.</b> Never pay a fee to enter a housing lottery."]]}
+    type:{
+      en:{title:"This looks like a Notice to Cure.",tag:"⏳ Time-sensitive · 10 days",plain:"From what you described, your landlord gave you a <b>Notice to Cure</b> — a paper that claims you broke a rule in your lease. It is <b>not</b> an eviction. It's the first step of a process, and you have time and options.",reassure:"A notice is not an eviction. You have rights, and people do this for free every day. Let's take it one step at a time.",facts:[["📅","<b>You have ~10 days</b> to respond or fix the issue."],["⚖️","<b>This is not an eviction order.</b> Only a judge can order that, after a court case."],["🆓","<b>You may qualify for a free lawyer</b> through NYC's Right to Counsel."]],deep:"<p>A <b>Notice to Cure</b> is a written warning, not a court order. Your landlord is claiming you broke a 'substantial obligation' of your lease — for example, an unapproved pet, extra occupants, or noise. The notice must give you a set period (usually 10 days) to fix, or 'cure', the issue.</p><p>If you cure the problem within the time given, the matter usually ends there. If you don't, the landlord's next step is a <b>Notice of Termination</b>, and only after that can they start a holdover case in housing court. Even then, you get a court date and a chance to respond — nothing happens automatically.</p><p>The most important moves: keep the notice, don't move out, and call a free tenant lawyer or hotline right away so someone reviews the exact wording with you.</p>"},
+      es:{title:"Esto parece un Aviso para Subsanar (Notice to Cure).",tag:"⏳ Urgente · 10 días",plain:"Por lo que describes, tu casero te dio un <b>Aviso para Subsanar</b> — un papel que dice que rompiste una regla de tu contrato. <b>No</b> es un desalojo. Es el primer paso de un proceso, y tienes tiempo y opciones.",reassure:"Un aviso no es un desalojo. Tienes derechos, y hay personas que ayudan gratis todos los días. Vamos paso a paso.",facts:[["📅","<b>Tienes ~10 días</b> para responder o corregir el problema."],["⚖️","<b>Esto no es una orden de desalojo.</b> Solo un juez puede ordenarlo, tras un caso en la corte."],["🆓","<b>Podrías calificar para un abogado gratis</b> por el Derecho a Asesoría (Right to Counsel) de NYC."]],deep:"<p>Un <b>Aviso para Subsanar</b> es una advertencia escrita, no una orden judicial. Tu casero alega que rompiste una 'obligación sustancial' del contrato — por ejemplo, una mascota no autorizada, ocupantes adicionales o ruido. El aviso debe darte un plazo (normalmente 10 días) para corregirlo.</p><p>Si lo corriges dentro del plazo, el asunto suele terminar ahí. Si no, el siguiente paso del casero es un <b>Aviso de Terminación</b>, y solo después puede iniciar un caso en la corte de vivienda. Aun así, recibes una fecha en la corte y la oportunidad de responder — nada ocurre automáticamente.</p><p>Lo más importante: guarda el aviso, no te mudes, y llama de inmediato a un abogado o línea de ayuda gratis para tenants.</p>"}
+    },
+    evict:{
+      en:{title:"Facing a notice or eviction.",tag:"⏳ Time-sensitive",plain:"Getting a notice is frightening, but it's the <b>beginning</b> of a process — not the end. Nothing happens overnight, and you have real protections.",reassure:"You can't be removed without a court case and a judge's order. You have time. Let's find your next step.",facts:[["📅","<b>Deadlines matter</b> — but missing one is rarely the end. Act soon, not in panic."],["⚖️","<b>Only a court</b> can order an eviction, never the landlord directly."],["🆓","<b>Free legal help</b> exists for exactly this."]],deep:"<p>An eviction in NYC is a legal process with several steps, and a tenant has the right to be heard at each one. It usually begins with a written notice, then a court petition, then a hearing where you can present your side. A landlord <b>cannot</b> change the locks, remove your things, or shut off utilities to force you out — that's an illegal 'self-help' eviction.</p><p>Only a city marshal, acting on a judge's warrant, can carry out an eviction, and you receive written warning before that point. At any stage you can ask for more time, raise defenses (like needed repairs or improper paperwork), and request a free lawyer.</p><p>Acting early gives you the most options — the worst thing is to ignore the papers and miss a court date.</p>"},
+      es:{title:"Enfrentando un aviso o desalojo.",tag:"⏳ Urgente",plain:"Recibir un aviso da miedo, pero es el <b>comienzo</b> de un proceso — no el final. Nada pasa de un día para otro, y tienes protecciones reales.",reassure:"No te pueden sacar sin un caso en la corte y una orden de un juez. Tienes tiempo. Busquemos tu siguiente paso.",facts:[["📅","<b>Los plazos importan</b> — pero perder uno rara vez es el final. Actúa pronto, sin pánico."],["⚖️","<b>Solo una corte</b> puede ordenar un desalojo, nunca el casero directamente."],["🆓","<b>Existe ayuda legal gratis</b> exactamente para esto."]],deep:"<p>Un desalojo en NYC es un proceso legal con varios pasos, y el tenant tiene derecho a ser escuchado en cada uno. Suele empezar con un aviso escrito, luego una petición en la corte, y luego una audiencia donde puedes presentar tu versión. Un casero <b>no puede</b> cambiar las cerraduras, sacar tus cosas ni cortar los servicios para forzarte a salir — eso es un desalojo ilegal por mano propia.</p><p>Solo un marshal de la ciudad, con una orden de un juez, puede ejecutar un desalojo, y recibes aviso escrito antes de ese punto. En cualquier etapa puedes pedir más tiempo, presentar defensas (como reparaciones necesarias o papeleo incorrecto) y solicitar un abogado gratis.</p><p>Actuar temprano te da más opciones — lo peor es ignorar los papeles y perder una fecha en la corte.</p>"}
+    },
+    rent:{
+      en:{title:"Behind on rent.",tag:"💵 Help is available",plain:"Falling behind on rent is one of the most common situations in NYC — and there are <b>specific programs</b> built to help, including emergency 'one-shot deal' grants.",reassure:"Owing rent does not mean losing your home. Many people catch up with help they didn't know existed. Let's find it.",facts:[["💰","<b>One-Shot Deal (HRA)</b> can cover rent arrears in an emergency."],["📝","<b>You apply through ACCESS HRA</b> — advocates can help you do it."],["🛡️","<b>Applying can pause</b> some eviction steps. It's worth doing early."]],deep:"<p>If you're behind on rent, the city's <b>Emergency Assistance ('One-Shot Deal')</b> through HRA can pay arrears for people who qualify, especially when you can show you'll be able to keep up going forward. You apply on ACCESS HRA, and a caseworker reviews your situation.</p><p>Other paths can stack on top: rent arrears grants from nonprofits, payment agreements with the landlord, and — if a case is already filed — programs that connect you with a free lawyer. Documenting your income, the amount owed, and any hardship (job loss, medical bills) strengthens an application.</p><p>The key is to start before the debt grows. Even a partial solution can stop a case from escalating.</p>"},
+      es:{title:"Atrasado con la renta.",tag:"💵 Hay ayuda disponible",plain:"Atrasarse con la renta es una de las situaciones más comunes en NYC — y existen <b>programas específicos</b> para ayudar, incluyendo subvenciones de emergencia ('one-shot deal').",reassure:"Deber renta no significa perder tu hogar. Muchas personas se ponen al día con ayuda que no sabían que existía. Vamos a encontrarla.",facts:[["💰","<b>One-Shot Deal (HRA)</b> puede cubrir la renta atrasada en una emergencia."],["📝","<b>Solicitas por ACCESS HRA</b> — hay personas que te ayudan a hacerlo."],["🛡️","<b>Solicitar puede pausar</b> algunos pasos del desalojo. Conviene hacerlo pronto."]],deep:"<p>Si estás atrasado con la renta, la <b>Asistencia de Emergencia ('One-Shot Deal')</b> de HRA puede pagar lo atrasado para quienes califican, sobre todo si puedes mostrar que podrás mantenerte al día. Solicitas en ACCESS HRA y un trabajador social revisa tu situación.</p><p>Otras opciones se pueden sumar: subvenciones de organizaciones sin fines de lucro, acuerdos de pago con el casero y — si ya hay un caso — programas que te conectan con un abogado gratis. Documentar tus ingresos, lo que debes y cualquier dificultad (pérdida de empleo, gastos médicos) fortalece la solicitud.</p><p>La clave es empezar antes de que crezca la deuda. Incluso una solución parcial puede frenar un caso.</p>"}
+    },
+    unsafe:{
+      en:{title:"Unsafe living conditions.",tag:"🛠️ Your landlord's duty",plain:"Heat, hot water, and safe repairs are your <b>legal right</b> — not favors. Your landlord must provide them, and the city can enforce it.",reassure:"You don't have to live like this, and asking for repairs is your right. Reporting it cannot get you legally evicted.",facts:[["🔥","<b>Heat season</b> (Oct 1–May 31) requires set minimum temperatures."],["📞","<b>Call 311</b> to file a complaint and create an official record."],["🚫","<b>Retaliation is illegal</b> — a landlord can't punish you for reporting."]],deep:"<p>Every tenant has a right to a livable home — known as the <b>warranty of habitability</b>. That means working heat and hot water, no leaks or mold, working plumbing, and freedom from pests. During heat season (Oct 1–May 31) landlords must keep apartments at set minimum temperatures day and night.</p><p>When you report conditions to 311, the city creates a record and can send an inspector, who may issue violations against the landlord. That record is powerful — it backs you up if there's ever a dispute, and it can support a 'repair case' you bring in housing court (an HP action) to force repairs.</p><p>It's illegal for a landlord to retaliate — raising rent, refusing renewal, or threatening eviction — because you asked for repairs or called 311.</p>"},
+      es:{title:"Condiciones de vivienda inseguras.",tag:"🛠️ Deber del casero",plain:"La calefacción, el agua caliente y las reparaciones seguras son tu <b>derecho legal</b> — no favores. Tu casero debe darlos, y la ciudad puede exigirlo.",reassure:"No tienes que vivir así, y pedir reparaciones es tu derecho. Reportarlo no puede causar un desalojo legal.",facts:[["🔥","<b>Temporada de calefacción</b> (1 oct–31 may) exige temperaturas mínimas."],["📞","<b>Llama al 311</b> para presentar una queja y crear un registro oficial."],["🚫","<b>La represalia es ilegal</b> — el casero no puede castigarte por reportar."]],deep:"<p>Todo tenant tiene derecho a un hogar habitable — la llamada <b>garantía de habitabilidad</b>. Eso significa calefacción y agua caliente funcionando, sin goteras ni moho, plomería que funcione y sin plagas. Durante la temporada de calefacción (1 oct–31 may), los caseros deben mantener temperaturas mínimas de día y de noche.</p><p>Cuando reportas condiciones al 311, la ciudad crea un registro y puede enviar un inspector, que puede emitir violaciones contra el casero. Ese registro es poderoso — te respalda si hay una disputa y puede apoyar un 'caso de reparación' (acción HP) en la corte de vivienda para forzar arreglos.</p><p>Es ilegal que el casero tome represalias — subir la renta, negar la renovación o amenazar con desalojo — porque pediste reparaciones o llamaste al 311.</p>"}
+    },
+    shelter:{
+      en:{title:"You need a safe place.",tag:"🏠 Right to shelter",plain:"In New York City, you have a <b>legal right to shelter</b>. No one should sleep on the street tonight, and there are people whose job is to help you right now.",reassure:"You have a right to a safe place tonight. You are not a burden — this help exists for exactly this moment.",facts:[["🛏️","<b>NYC has a legal right to shelter</b> for those who need it."],["📍","<b>PATH (Bronx)</b> is the intake center for families with children — open 24/7."],["📞","<b>Call 311</b> any hour to be connected to intake."]],deep:"<p>New York City is one of the only places in the country with a <b>legal right to shelter</b> — meaning the city must provide a bed to people who need one. You do not need to prove immigration status to seek emergency shelter.</p><p>Families with children go through <b>PATH</b> in the Bronx for intake; single adults use designated intake centers, and 311 can direct you to the right one at any hour. Bring any ID and documents you have, but a lack of paperwork should not stop you from being seen.</p><p>If you're fleeing violence, there are separate confidential domestic-violence shelters — tell intake or the hotline and they'll route you safely. Shelter is meant to be a starting point toward stable housing, with caseworkers who can help with next steps.</p>"},
+      es:{title:"Necesitas un lugar seguro.",tag:"🏠 Derecho a refugio",plain:"En la Ciudad de Nueva York, tienes un <b>derecho legal a refugio</b>. Nadie debería dormir en la calle esta noche, y hay personas cuyo trabajo es ayudarte ahora mismo.",reassure:"Tienes derecho a un lugar seguro esta noche. No eres una carga — esta ayuda existe justo para este momento.",facts:[["🛏️","<b>NYC tiene un derecho legal a refugio</b> para quien lo necesita."],["📍","<b>PATH (Bronx)</b> es el centro de admisión para familias con niños — abierto 24/7."],["📞","<b>Llama al 311</b> a cualquier hora para conectarte con admisión."]],deep:"<p>La Ciudad de Nueva York es uno de los pocos lugares del país con un <b>derecho legal a refugio</b> — es decir, la ciudad debe dar una cama a quien la necesita. No necesitas comprobar estatus migratorio para buscar refugio de emergencia.</p><p>Las familias con niños hacen la admisión por <b>PATH</b> en el Bronx; los adultos solteros usan centros de admisión designados, y el 311 puede dirigirte al correcto a cualquier hora. Lleva la identificación y documentos que tengas, pero la falta de papeles no debe impedir que te atiendan.</p><p>Si huyes de la violencia, hay refugios confidenciales separados para violencia doméstica — dilo en admisión o en la línea de ayuda y te guiarán de forma segura. El refugio es un punto de partida hacia vivienda estable, con trabajadores sociales que ayudan con los siguientes pasos.</p>"}
+    },
+    affordable:{
+      en:{title:"Finding affordable housing.",tag:"🏗️ Take it step by step",plain:"Affordable housing in NYC mostly runs through <b>lotteries and waitlists</b>. It takes patience, but getting your name in early is the most important move — and it's free to apply.",reassure:"It can feel slow, but every application is a real chance. Getting registered today puts you in the running. Let's start.",facts:[["🎟️","<b>NYC Housing Connect</b> lists affordable apartment lotteries you can apply to."],["📋","<b>NYCHA & Section 8</b> have waitlists — getting on them early matters most."],["🆓","<b>Applying is always free.</b> Never pay a fee to enter a housing lottery."]],deep:"<p>Most affordable housing in NYC is awarded through <b>NYC Housing Connect</b>, the city's official lottery site. You create one profile with your household size and income, then apply to listings you qualify for. Selection is by lottery and log number, so applying to many listings over time improves your odds.</p><p>Separately, <b>NYCHA</b> (public housing) and <b>Section 8</b> vouchers use long waitlists — when they open, register right away, because position depends on date. Keep your contact info current so you don't miss a letter.</p><p>Watch for scams: legitimate lotteries are always free, never ask for payment to 'hold' an apartment, and won't guarantee a unit for a fee.</p>"},
+      es:{title:"Buscando vivienda asequible.",tag:"🏗️ Paso a paso",plain:"La vivienda asequible en NYC funciona mayormente por <b>loterías y listas de espera</b>. Requiere paciencia, pero registrar tu nombre temprano es lo más importante — y solicitar es gratis.",reassure:"Puede sentirse lento, pero cada solicitud es una oportunidad real. Registrarte hoy te pone en la carrera. Empecemos.",facts:[["🎟️","<b>NYC Housing Connect</b> lista las loterías de apartamentos asequibles."],["📋","<b>NYCHA y Sección 8</b> tienen listas de espera — entrar temprano es lo que más importa."],["🆓","<b>Solicitar siempre es gratis.</b> Nunca pagues una tarifa para entrar a una lotería."]],deep:"<p>La mayoría de la vivienda asequible en NYC se otorga por <b>NYC Housing Connect</b>, el sitio oficial de loterías de la ciudad. Creas un perfil con el tamaño de tu hogar y tus ingresos, y luego aplicas a los listados para los que califiques. La selección es por lotería y número de registro, así que aplicar a muchos listados con el tiempo mejora tus probabilidades.</p><p>Aparte, <b>NYCHA</b> (vivienda pública) y los vales de <b>Sección 8</b> usan listas de espera largas — cuando abren, regístrate de inmediato, porque la posición depende de la fecha. Mantén tu información de contacto al día para no perder una carta.</p><p>Cuidado con las estafas: las loterías legítimas siempre son gratis, nunca piden pago para 'apartar' un apartamento ni garantizan una unidad por una tarifa.</p>"}
+    },
+    dv:{
+      en:{title:"Your safety comes first.",tag:"🛟 Confidential help · 24/7",plain:"If you're being hurt or threatened at home, you don't have to face it alone. There are people available <b>right now, any hour</b>, who can help you find a safe place and make a plan — privately and free.",reassure:"You deserve to be safe. These services are confidential, free, and available 24/7 — including help regardless of immigration status.",facts:[["📞","<b>NYC's 24-hour hotline</b> can find emergency shelter and help you plan: 1-800-621-HOPE."],["🤫","<b>It's confidential.</b> You don't have to give your name to get help or advice."],["🏠","<b>Emergency DV shelters</b> exist across all five boroughs, with space for children."]],deep:"<p>If you are experiencing domestic or gender-based violence, your safety is the priority — and New York City has dedicated, confidential services for exactly this. The 24-hour hotline (1-800-621-HOPE) can connect you to emergency domestic-violence shelter, help you make a safety plan, and link you to counseling and legal help, all free and in many languages.</p><p>These services are separate from the regular shelter system and are kept confidential to protect your location. You do not need to share your immigration status, and survivors have specific housing protections — including the right to confidential address programs.</p><p>If you are in immediate danger, call 911. Otherwise, the hotline can talk through your options at your own pace — there's no pressure to make any decision before you're ready.</p>"},
+      es:{title:"Tu seguridad es lo primero.",tag:"🛟 Ayuda confidencial · 24/7",plain:"Si te están lastimando o amenazando en casa, no tienes que enfrentarlo sola. Hay personas disponibles <b>ahora mismo, a cualquier hora</b>, que pueden ayudarte a encontrar un lugar seguro y hacer un plan — de forma privada y gratis.",reassure:"Mereces estar segura. Estos servicios son confidenciales, gratuitos y disponibles 24/7 — incluida ayuda sin importar el estatus migratorio.",facts:[["📞","<b>La línea de 24 horas de NYC</b> puede encontrar refugio de emergencia y ayudarte a planear: 1-800-621-HOPE."],["🤫","<b>Es confidencial.</b> No tienes que dar tu nombre para recibir ayuda o consejo."],["🏠","<b>Hay refugios de emergencia</b> en los cinco condados, con espacio para niños."]],deep:"<p>Si estás sufriendo violencia doméstica o de género, tu seguridad es la prioridad — y la Ciudad de Nueva York tiene servicios confidenciales dedicados justo a esto. La línea de 24 horas (1-800-621-HOPE) puede conectarte con refugio de emergencia para violencia doméstica, ayudarte a hacer un plan de seguridad y vincularte con consejería y ayuda legal, todo gratis y en muchos idiomas.</p><p>Estos servicios son separados del sistema regular de refugios y se mantienen confidenciales para proteger tu ubicación. No necesitas compartir tu estatus migratorio, y las sobrevivientes tienen protecciones de vivienda específicas — incluido el derecho a programas de dirección confidencial.</p><p>Si estás en peligro inmediato, llama al 911. De lo contrario, la línea puede explicarte tus opciones a tu propio ritmo — no hay presión para decidir nada antes de que estés lista.</p>"}
+    },
+    discrimination:{
+      en:{title:"This may be illegal — and you can act.",tag:"⚖️ You have rights",plain:"If a landlord refuses you, harasses you, or treats you differently because of who you are — your race, religion, immigration status, disability, having kids, or using a Section 8 voucher — that's <b>illegal discrimination</b> in NYC, and you can file a free complaint.",reassure:"You don't have to just accept it. Filing a complaint is free, and using a voucher or your immigration status are both protected.",facts:[["🛡️","<b>Source of income is protected</b> — landlords can't reject you for using a Section 8 voucher."],["📝","<b>Filing is free</b> through the NYC Commission on Human Rights."],["🌐","<b>State & federal options too</b> if your case is outside NYC's reach."]],deep:"<p>NYC has some of the strongest fair-housing laws in the country. A landlord, broker, or building cannot refuse you, charge you more, or treat you differently because of your race, color, religion, national origin, immigration status, disability, age, gender, sexual orientation, or whether you have children. They also cannot reject you for using a housing voucher — that's called <b>source-of-income discrimination</b>, and it's illegal.</p><p>If this happens, write down what was said, by whom, and when; save texts, emails, and listings. You can file a free complaint with the <b>NYC Commission on Human Rights</b>, and for cases outside the city there are state (NYS Division of Human Rights) and federal (HUD) options.</p><p>Filing is free, you can do it regardless of immigration status, and it's illegal for a landlord to retaliate against you for asserting these rights.</p>"},
+      es:{title:"Esto puede ser ilegal — y puedes actuar.",tag:"⚖️ Tienes derechos",plain:"Si un casero te rechaza, te acosa o te trata distinto por quién eres — tu raza, religión, estatus migratorio, discapacidad, tener hijos o usar un vale de Sección 8 — eso es <b>discriminación ilegal</b> en NYC, y puedes presentar una queja gratis.",reassure:"No tienes que aceptarlo sin más. Presentar una queja es gratis, y usar un vale o tu estatus migratorio están ambos protegidos.",facts:[["🛡️","<b>La fuente de ingreso está protegida</b> — no pueden rechazarte por usar un vale de Sección 8."],["📝","<b>Presentar es gratis</b> a través de la Comisión de Derechos Humanos de NYC."],["🌐","<b>También hay opciones estatales y federales</b> si tu caso está fuera del alcance de NYC."]],deep:"<p>NYC tiene algunas de las leyes de vivienda justa más fuertes del país. Un casero, corredor o edificio no puede rechazarte, cobrarte más o tratarte distinto por tu raza, color, religión, origen nacional, estatus migratorio, discapacidad, edad, género, orientación sexual o por tener hijos. Tampoco pueden rechazarte por usar un vale de vivienda — eso se llama <b>discriminación por fuente de ingreso</b> y es ilegal.</p><p>Si ocurre, anota qué se dijo, quién lo dijo y cuándo; guarda mensajes, correos y anuncios. Puedes presentar una queja gratis con la <b>Comisión de Derechos Humanos de NYC</b>, y para casos fuera de la ciudad hay opciones estatales (División de Derechos Humanos de NY) y federales (HUD).</p><p>Presentar es gratis, puedes hacerlo sin importar tu estatus migratorio, y es ilegal que un casero tome represalias por hacer valer estos derechos.</p>"}
+    }
   };
+
+  const RIGHTS = [
+    {ic:"📨",
+      en:{t:"Eviction & notices",s:"What a landlord can and can't do",items:["A landlord cannot evict you themselves — only a court can, after a case and a judge's order.","Lockouts, removing your belongings, or shutting off utilities are illegal 'self-help' evictions.","You're entitled to written notice and a court date where you can respond.","Many NYC tenants qualify for a free lawyer through Right to Counsel."]},
+      es:{t:"Desalojo y avisos",s:"Lo que un casero puede y no puede hacer",items:["Un casero no puede desalojarte por su cuenta — solo una corte puede, tras un caso y la orden de un juez.","Cambiar cerraduras, sacar tus cosas o cortar los servicios son desalojos ilegales por mano propia.","Tienes derecho a un aviso escrito y a una fecha en la corte para responder.","Muchos tenants de NYC califican para un abogado gratis por el Right to Counsel."]}},
+    {ic:"🛠️",
+      en:{t:"Repairs & habitability",s:"Heat, hot water, and safe conditions",items:["You have a right to heat (Oct 1–May 31), hot water year-round, and a home free of leaks, mold, and pests.","Report problems to 311 to create an official record and trigger an inspection.","You can bring an HP action in housing court to force repairs.","A landlord cannot retaliate against you for requesting repairs."]},
+      es:{t:"Reparaciones y habitabilidad",s:"Calefacción, agua caliente y condiciones seguras",items:["Tienes derecho a calefacción (1 oct–31 may), agua caliente todo el año, y un hogar sin goteras, moho ni plagas.","Reporta problemas al 311 para crear un registro oficial y una inspección.","Puedes presentar una acción HP en la corte de vivienda para forzar reparaciones.","El casero no puede tomar represalias por pedir reparaciones."]}},
+    {ic:"🚫",
+      en:{t:"Discrimination",s:"Fair housing & voucher rights",items:["It's illegal to refuse you based on race, religion, national origin, disability, family status, and more.","Landlords cannot refuse you because you pay with a voucher (source-of-income discrimination).","You can document and report discrimination to the NYC Commission on Human Rights.","Immigration status is not a legal reason to deny housing."]},
+      es:{t:"Discriminación",s:"Vivienda justa y derechos de vales",items:["Es ilegal rechazarte por raza, religión, origen nacional, discapacidad, estado familiar y más.","Los caseros no pueden rechazarte por pagar con un vale (discriminación por fuente de ingreso).","Puedes documentar y reportar discriminación a la Comisión de Derechos Humanos de NYC.","El estatus migratorio no es una razón legal para negar vivienda."]}},
+    {ic:"🔒",
+      en:{t:"Privacy & harassment",s:"Your right to peace in your home",items:["A landlord generally must give reasonable notice before entering your apartment.","Harassment — threats, repeated lockouts, cutting services to push you out — is illegal.","Keep a written log of incidents, with dates, as evidence.","You can report harassment to 311 and seek help from a tenant org."]},
+      es:{t:"Privacidad y acoso",s:"Tu derecho a la paz en tu hogar",items:["Por lo general, un casero debe avisar razonablemente antes de entrar a tu apartamento.","El acoso — amenazas, cierres repetidos, cortar servicios para sacarte — es ilegal.","Lleva un registro escrito de los incidentes, con fechas, como evidencia.","Puedes reportar el acoso al 311 y buscar ayuda de una organización de tenants."]}},
+    {ic:"💵",
+      en:{t:"Rent & affordability",s:"Assistance and your money",items:["Emergency 'One-Shot Deal' grants (HRA) can cover rent arrears for those who qualify.","Some apartments are rent-stabilized, with limits on increases — check your status.","Applying for assistance is free; never pay to access a public program.","Affordable housing lotteries are run through NYC Housing Connect."]},
+      es:{t:"Renta y asequibilidad",s:"Asistencia y tu dinero",items:["Las subvenciones de emergencia 'One-Shot Deal' (HRA) pueden cubrir renta atrasada para quien califica.","Algunos apartamentos son de renta estabilizada, con límites a los aumentos — verifica tu estatus.","Solicitar asistencia es gratis; nunca pagues por acceder a un programa público.","Las loterías de vivienda asequible se manejan por NYC Housing Connect."]}}
+  ];
+
+  const UI = {
+    en:{dates_title:"Important dates",dates_sub:"Housing deadlines to know",m_days:"days",m_mon:"mon",m_open:"open",d1t:"Respond to a notice",d1s:"Notice to Cure: act within 10 days",d2t:"Heat season begins",d2s:"Oct 1–May 31: heat is required",d3t:"Rent due reminder",d3s:"A late notice can't come before this",d4t:"Housing lottery deadlines",d4s:"New NYC Housing Connect listings",demo_dates:"Sample dates for demo",
+      maria_status:"Here to help · free & private",c_evict:"📨 I got a notice",c_rent:"💵 Can't afford rent",c_unsafe:"🛠️ Unsafe apartment",c_shelter:"🏠 Nowhere to stay",chat_ph:"Tell me what's going on…",trust_b:"Safe to use.",trust_t:"We don't ask for your name, immigration status, or address. Nothing you type is shared with the city or anyone else.",
+      news_title:"Important news",news_sub:"NYC housing alerts",n1tag:"Funding",n1h:"New rental assistance funds released for arrears",n1m:"Apply early through ACCESS HRA",n2tag:"Rights",n2h:"Right to Counsel expands free housing-court lawyers",n2m:"More tenants now qualify",n3tag:"Alert",n3h:"Heat complaints rising — know the minimums",n3m:"Report no-heat to 311 right away",n4tag:"Housing",n4h:"New affordable lotteries open on Housing Connect",n4m:"Free to apply — never pay a fee",demo_news:"Sample headlines for demo",
+      back:"Back",u_eye:"Tell us what's happening",u_h:"What's going on? Take your time.",u_p:"You can type it, take a photo of a paper you received, or pick from common situations.",u_type:"Type it",u_photo:"Photo",u_pick:"Pick",u_ph:"For example: my landlord slipped a paper under my door and I'm scared...",continue:"Continue",up_t:"Take or upload a photo of your notice",up_s:"We'll read it and explain it in plain language.",reading:"Reading your document…",o_evict_t:"I got a notice or eviction paper",o_evict_s:"A letter from my landlord or the court",o_rent_t:"I can't afford my rent",o_rent_s:"I'm behind or about to fall behind",o_unsafe_t:"My apartment is unsafe",o_unsafe_s:"No heat, leaks, mold, repairs ignored",o_shelter_t:"I have nowhere to stay",o_shelter_s:"I need a safe place tonight",
+      s_eye:"Here's what this means",explain_more:"Explain in more depth",deep_h:"A fuller explanation",show_options:"Show me what I can do",
+      c_eye:"You're not alone",c_h:"Three ways forward. Pick what feels right.",c_p:"There's no wrong choice. Start wherever you're comfortable.",door1t:"Talk to a real person",door1s:"Free legal help & tenant hotlines",door2t:"Know your rights",door2s:"Plain-language guides by type of right",door3t:"What to do next",door3s:"A simple checklist for the next 24–48 hours",c_trust:"These are free, trusted NYC organizations. Many help",c_trust_b:"regardless of immigration status",
+      t_eye:"Talk to someone",t_h:"People who can help — for free.",t_note:"Phone numbers verified June 2026. Always confirm hours, as they can change.",
+      rt_eye:"Know your rights",rt_h:"Your rights, by type.",rt_p:"Tap a category to learn more. Everything here applies regardless of immigration status.",
+      n_eye:"What to do next",n_h:"Your next 48 hours.",n_p:"Small steps. Tap each one as you go.",ck1t:"Don't panic — and don't move out",ck1s:"A notice is not an order to leave. Staying put protects your rights.",ck2t:"Photograph the notice & envelope",ck2s:"Front and back. Note the date you received it.",ck3t:"Call Legal Aid or the tenant hotline",ck3s:"Tell them you got a notice and the date. They'll guide you.",ck4t:"Write down what the landlord claims",ck4s:"Knowing the exact issue helps you and any advocate respond.",ck5t:"Mark the 10-day deadline",ck5s:"Count from the day you received it. Act before it ends.",n_re:"You've already done the hardest part — you started. One call tomorrow is real progress.",n_getnum:"Get the phone numbers",n_done:"Start over / done for now",
+      b_eye:"Browse on your own",b_h:"Housing help, by situation.",b_p:"Pick what's closest to what you're going through.",b1t:"Facing eviction or a notice",b1s:"Rights, the process, who can help",b2t:"Can't afford rent",b2s:"Rental assistance & one-shot deals",b3t:"Unsafe living conditions",b3s:"No heat, mold, repairs — your rights",b4t:"Experiencing homelessness",b4s:"Right to shelter & PATH intake",b5t:"Looking for affordable housing",b5s:"NYC Housing Connect & NYCHA",b6t:"Safety & domestic violence",b6s:"Confidential help & emergency shelter",b7t:"Housing discrimination",b7s:"Treated unfairly? File a free complaint",
+      nav_home:"Home",nav_browse:"Browse",nav_help:"Get help",nav_rights:"Rights",nav_contacts:"Contacts"},
+    es:{dates_title:"Fechas importantes",dates_sub:"Plazos de vivienda que debes saber",m_days:"días",m_mon:"mes",m_open:"abre",d1t:"Responder a un aviso",d1s:"Aviso para Subsanar: actúa en 10 días",d2t:"Inicia temporada de calefacción",d2s:"1 oct–31 may: la calefacción es obligatoria",d3t:"Recordatorio de renta",d3s:"Un aviso de atraso no puede llegar antes",d4t:"Plazos de lotería de vivienda",d4s:"Nuevos listados de NYC Housing Connect",demo_dates:"Fechas de ejemplo (demo)",
+      maria_status:"Aquí para ayudar · gratis y privado",c_evict:"📨 Recibí un aviso",c_rent:"💵 No puedo pagar la renta",c_unsafe:"🛠️ Apartamento inseguro",c_shelter:"🏠 No tengo dónde quedarme",chat_ph:"Cuéntame qué está pasando…",trust_b:"Seguro de usar.",trust_t:"No pedimos tu nombre, estatus migratorio ni dirección. Nada de lo que escribes se comparte con la ciudad ni con nadie.",
+      news_title:"Noticias importantes",news_sub:"Alertas de vivienda de NYC",n1tag:"Fondos",n1h:"Nuevos fondos de asistencia de renta para atrasos",n1m:"Solicita pronto por ACCESS HRA",n2tag:"Derechos",n2h:"Right to Counsel amplía abogados gratis en la corte",n2m:"Más tenants ahora califican",n3tag:"Alerta",n3h:"Suben las quejas de calefacción — conoce los mínimos",n3m:"Reporta la falta de calefacción al 311 de inmediato",n4tag:"Vivienda",n4h:"Nuevas loterías asequibles en Housing Connect",n4m:"Gratis solicitar — nunca pagues una tarifa",demo_news:"Titulares de ejemplo (demo)",
+      back:"Atrás",u_eye:"Cuéntanos qué pasa",u_h:"¿Qué está pasando? Tómate tu tiempo.",u_p:"Puedes escribirlo, tomar una foto de un papel que recibiste, o elegir una situación común.",u_type:"Escribir",u_photo:"Foto",u_pick:"Elegir",u_ph:"Por ejemplo: mi casero deslizó un papel bajo mi puerta y tengo miedo...",continue:"Continuar",up_t:"Toma o sube una foto de tu aviso",up_s:"Lo leeremos y lo explicaremos en lenguaje sencillo.",reading:"Leyendo tu documento…",o_evict_t:"Recibí un aviso o papel de desalojo",o_evict_s:"Una carta de mi casero o de la corte",o_rent_t:"No puedo pagar mi renta",o_rent_s:"Estoy atrasado o a punto de atrasarme",o_unsafe_t:"Mi apartamento es inseguro",o_unsafe_s:"Sin calefacción, goteras, moho, reparaciones ignoradas",o_shelter_t:"No tengo dónde quedarme",o_shelter_s:"Necesito un lugar seguro esta noche",
+      s_eye:"Esto es lo que significa",explain_more:"Explicar con más detalle",deep_h:"Una explicación más completa",show_options:"Muéstrame qué puedo hacer",
+      c_eye:"No estás solo",c_h:"Tres caminos. Elige el que sientas mejor.",c_p:"No hay opción equivocada. Empieza donde te sientas cómodo.",door1t:"Habla con una persona real",door1s:"Ayuda legal gratis y líneas para tenants",door2t:"Conoce tus derechos",door2s:"Guías en lenguaje sencillo por tipo de derecho",door3t:"Qué hacer ahora",door3s:"Una lista simple para las próximas 24–48 horas",c_trust:"Son organizaciones de NYC gratuitas y confiables. Muchas ayudan",c_trust_b:"sin importar el estatus migratorio",
+      t_eye:"Habla con alguien",t_h:"Personas que pueden ayudar — gratis.",t_note:"Números verificados en junio de 2026. Confirma siempre los horarios, pueden cambiar.",
+      rt_eye:"Conoce tus derechos",rt_h:"Tus derechos, por tipo.",rt_p:"Toca una categoría para saber más. Todo aquí aplica sin importar el estatus migratorio.",
+      n_eye:"Qué hacer ahora",n_h:"Tus próximas 48 horas.",n_p:"Pasos pequeños. Toca cada uno a medida que avances.",ck1t:"No entres en pánico — y no te mudes",ck1s:"Un aviso no es una orden de salir. Quedarte protege tus derechos.",ck2t:"Fotografía el aviso y el sobre",ck2s:"Frente y reverso. Anota la fecha en que lo recibiste.",ck3t:"Llama a Legal Aid o a la línea de tenants",ck3s:"Diles que recibiste un aviso y la fecha. Te guiarán.",ck4t:"Escribe lo que alega el casero",ck4s:"Saber el problema exacto te ayuda a ti y a cualquier defensor a responder.",ck5t:"Marca el plazo de 10 días",ck5s:"Cuenta desde el día que lo recibiste. Actúa antes de que termine.",n_re:"Ya hiciste lo más difícil — empezaste. Una llamada mañana es progreso real.",n_getnum:"Obtener los números",n_done:"Empezar de nuevo / listo por ahora",
+      b_eye:"Explora por tu cuenta",b_h:"Ayuda de vivienda, por situación.",b_p:"Elige lo más cercano a lo que estás viviendo.",b1t:"Enfrentando desalojo o un aviso",b1s:"Derechos, el proceso, quién ayuda",b2t:"No puedo pagar la renta",b2s:"Asistencia de renta y one-shot deals",b3t:"Condiciones inseguras",b3s:"Sin calefacción, moho, reparaciones — tus derechos",b4t:"Sin hogar",b4s:"Derecho a refugio y admisión PATH",b5t:"Buscando vivienda asequible",b5s:"NYC Housing Connect y NYCHA",b6t:"Seguridad y violencia doméstica",b6s:"Ayuda confidencial y refugio de emergencia",b7t:"Discriminación de vivienda",b7s:"¿Te trataron injustamente? Presenta una queja gratis",
+      nav_home:"Inicio",nav_browse:"Explorar",nav_help:"Ayuda",nav_rights:"Derechos",nav_contacts:"Contactos"}
+  };
+
+  let LANG='en';
+  let currentKey='type';
+  let deepOpen=false;
+  let lastTalkCat='all';
+
   function go(id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+    document.body.classList.toggle('home-mode', id==='s-home');
     window.scrollTo({top:0,behavior:'instant'});
-    const map={'s-home':'n-home','s-browse':'n-browse','s-understand':'n-help','s-talk':'n-saved'};
+    const map={'s-home':'n-home','s-browse':'n-browse','s-understand':'n-help','s-rights':'n-rights','s-talk':'n-saved'};
     document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
     if(map[id]) document.getElementById(map[id]).classList.add('on');
+    if(id==='s-rights') renderRights();
   }
+
+  /* situation keys map to resource categories; 'type' (typed/photo notice) → eviction help */
+  function catFor(key){ return key==='type' ? 'evict' : key; }
+
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  function renderResources(cat){
+    lastTalkCat = cat || 'all';
+    const list = (typeof CASA_RESOURCES === 'undefined') ? [] : CASA_RESOURCES;
+    const items = (cat && cat !== 'all') ? list.filter(r => r.cat === cat) : list;
+    const labels = (typeof CASA_CATEGORY_LABELS !== 'undefined')
+      ? (CASA_CATEGORY_LABELS[LANG] || CASA_CATEGORY_LABELS.en) : {};
+    const head = document.getElementById('resourceHeading');
+    if(head) head.textContent = labels[cat] || labels.all || 'People who can help — for free';
+
+    const box = document.getElementById('resourceList');
+    if(!box) return;
+    if(!items.length){ box.innerHTML = '<p>No resources listed yet for this situation.</p>'; return; }
+
+    box.innerHTML = items.map(r => {
+      const chips = []
+        .concat(String(r.languages||'').split(',').map(s=>s.trim()).filter(Boolean))
+        .concat(r.cost ? [r.cost] : [])
+        .map(c => `<span class="chip">${esc(c)}</span>`).join('');
+      const action = r.dial
+        ? `<a class="call" href="tel:${esc(r.dial)}">📞 ${esc(r.contact)}</a>`
+        : (r.website ? `<a class="call" href="https://${esc(r.website)}" target="_blank" rel="noopener">🌐 ${esc(r.contact)}</a>` : '');
+      const site = r.website ? `<div class="meta" style="margin-top:8px">🔗 ${esc(r.website)}</div>` : '';
+      return `<div class="res">
+        <h3>${esc(r.name)}</h3>
+        <div class="meta">${esc(r.org)} · ${esc(r.hours||'')}</div>
+        <p style="margin:8px 0 10px;color:var(--ink-soft)">${esc(r.desc)}</p>
+        <div class="chips2">${chips}</div>
+        ${action}
+        ${site}
+      </div>`;
+    }).join('');
+  }
+
+  function toggleLang(){ LANG = LANG==='en' ? 'es' : 'en'; applyLang(); }
+  function applyLang(){
+    const t=UI[LANG];
+    document.querySelectorAll('[data-i]').forEach(el=>{
+      const k=el.getAttribute('data-i'); if(t[k]!=null) el.textContent=t[k];
+    });
+    document.querySelectorAll('[data-i-ph]').forEach(el=>{
+      const k=el.getAttribute('data-i-ph'); if(t[k]!=null) el.setAttribute('placeholder',t[k]);
+    });
+    document.getElementById('langLabel').textContent = LANG==='en'?'English':'Español';
+    document.getElementById('transLabel').textContent = LANG==='en'?'Español':'English';
+    document.documentElement.lang = LANG;
+    if(document.getElementById('s-summary').classList.contains('active')) renderSummary();
+    if(document.getElementById('s-rights').classList.contains('active')) renderRights();
+    if(document.getElementById('s-talk').classList.contains('active')) renderResources(lastTalkCat);
+  }
+
+  const chatlog=()=>document.getElementById('chatlog');
+  function addBubble(text,who){
+    const b=document.createElement('div'); b.className='bubble '+who; b.innerHTML=text;
+    chatlog().appendChild(b); chatlog().scrollTop=chatlog().scrollHeight; return b;
+  }
+  function mariaIntro(){
+    chatlog().innerHTML='';
+    const greet = LANG==='en'
+      ? "Hi, I'm Maria. 💚 You're in the right place. Tell me what's going on — in your own words, in any language. Nothing is shared with anyone."
+      : "Hola, soy Maria. 💚 Estás en el lugar correcto. Cuéntame qué está pasando — con tus palabras, en cualquier idioma. Nada se comparte con nadie.";
+    addBubble(greet,'maria');
+  }
+  function mariaThenSummary(key){
+    currentKey=key;
+    const t=()=>addBubble('<span class="typing-b"><span></span><span></span><span></span></span>','maria');
+    const bubble=t();
+    setTimeout(()=>{
+      bubble.remove();
+      const msg = LANG==='en'
+        ? "Thank you for telling me. I understand, and you have options. Let me show you what this means — one step at a time."
+        : "Gracias por contarme. Entiendo, y tienes opciones. Déjame mostrarte qué significa — paso a paso.";
+      addBubble(msg,'maria');
+      setTimeout(()=>{ analyze(key); }, 850);
+    },1100);
+  }
+  function mariaPick(key){
+    const labels=UI[LANG];
+    const map={evict:labels.c_evict,rent:labels.c_rent,unsafe:labels.c_unsafe,shelter:labels.c_shelter};
+    addBubble(map[key]||key,'user');
+    mariaThenSummary(key);
+  }
+  function mariaSend(){
+    const f=document.getElementById('chatField'); const v=f.value.trim(); if(!v) return;
+    addBubble(v.replace(/</g,'&lt;'),'user'); f.value='';
+    mariaThenSummary(detectKey(v));
+  }
+  function mariaPhoto(){
+    const msg = LANG==='en' ? "📄 Photo of my notice" : "📄 Foto de mi aviso";
+    addBubble(msg,'user');
+    const bubble=addBubble('<span class="typing-b"><span></span><span></span><span></span></span>','maria');
+    setTimeout(()=>{ bubble.remove();
+      const r = LANG==='en'?"I read it — this looks like a Notice to Cure. Here's what it means.":"Lo leí — esto parece un Aviso para Subsanar. Esto es lo que significa.";
+      addBubble(r,'maria'); setTimeout(()=>analyze('type'),850);
+    },2200);
+  }
+  function detectKey(s){
+    s=s.toLowerCase();
+    if(/(domestic|abuse|abusive|hitting|hurt me|my partner|violenc|maltrat|abus|golpe|pareja me)/.test(s)) return 'dv';
+    if(/(discriminat|refus|denied|won'?t rent|voucher|section 8|source of income|discrimin|rechaz|vale|secci|me negaron)/.test(s)) return 'discrimination';
+    if(/(evict|notice|court|desaloj|aviso|corte|papel)/.test(s)) return 'evict';
+    if(/(rent|afford|behind|owe|renta|pagar|atras|debo)/.test(s)) return 'rent';
+    if(/(heat|repair|mold|leak|unsafe|calefacc|repar|moho|gotera|insegur)/.test(s)) return 'unsafe';
+    if(/(shelter|homeless|nowhere|street|refugio|sin hogar|calle|donde)/.test(s)) return 'shelter';
+    if(/(lottery|connect|nycha|asequibl|loter)/.test(s)) return 'affordable';
+    return 'type';
+  }
+
   function setMode(m){
     ['type','photo','pick'].forEach(x=>{
       document.getElementById('mode-'+x).style.display = x===m?'block':'none';
       document.getElementById('m-'+x).classList.toggle('sel',x===m);
     });
   }
-  function prefill(){document.getElementById('situationText').value="my landlord slipped a paper under my door and I'm scared I'll lose my apartment";}
   function simulatePhoto(){
     document.getElementById('uploadBox').style.display='none';
     document.getElementById('docArea').style.display='block';
     setTimeout(()=>{
       document.getElementById('scan').style.display='none';
-      document.getElementById('readStatus').innerHTML='✅ Done — here’s what it says.';
+      document.getElementById('readStatus').innerHTML = LANG==='en'?'✅ Done — here’s what it says.':'✅ Listo — esto es lo que dice.';
       setTimeout(()=>analyze('type'),700);
     },2600);
   }
-  function analyze(key){
-    const d = SUM[key]||SUM.type;
-    document.getElementById('sumTitle').textContent=d.title;
+
+  function analyze(key){ currentKey=key; deepOpen=false; renderSummary(); go('s-summary'); }
+  function renderSummary(){
+    const d = (SUM[currentKey]||SUM.type)[LANG];
+    document.getElementById('sumTitle').innerHTML=d.title;
     document.getElementById('sumTag').textContent=d.tag;
-    document.getElementById('sumTag').className='tag '+(d.tag.includes('Right to shelter')||d.tag.includes('available')?'green':'amber');
+    document.getElementById('sumTag').className='tag '+((d.tag.includes('refugio')||d.tag.includes('shelter')||d.tag.includes('available')||d.tag.includes('disponible'))?'green':'amber');
     document.getElementById('sumPlain').innerHTML=d.plain;
     document.getElementById('sumReassure').textContent=d.reassure;
     document.getElementById('sumFacts').innerHTML=d.facts.map(f=>`<div class="factline"><span class="fi">${f[0]}</span><div>${f[1]}</div></div>`).join('');
-    go('s-summary');
+    document.getElementById('deepBody').innerHTML=d.deep;
+    const db=document.getElementById('deepBox'), btn=document.getElementById('btnDeep');
+    db.classList.toggle('show',deepOpen); btn.classList.toggle('on',deepOpen);
   }
+  function toggleDeep(){ deepOpen=!deepOpen;
+    document.getElementById('deepBox').classList.toggle('show',deepOpen);
+    document.getElementById('btnDeep').classList.toggle('on',deepOpen);
+  }
+
+  function renderRights(){
+    const wrap=document.getElementById('rightsList');
+    wrap.innerHTML=RIGHTS.map((r,i)=>{
+      const c=r[LANG];
+      return `<div class="acc" id="acc${i}">
+        <button class="acc-head" onclick="toggleAcc(${i})">
+          <div class="ic">${r.ic}</div>
+          <div><div class="t">${c.t}</div><div class="s">${c.s}</div></div>
+          <div class="caret">▼</div>
+        </button>
+        <div class="acc-body"><ul>${c.items.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+      </div>`;
+    }).join('');
+  }
+  function toggleAcc(i){ document.getElementById('acc'+i).classList.toggle('open'); }
+
   function toggleCheck(el){el.classList.toggle('done');}
-  const langs=['English','Español','中文','Kreyòl','বাংলা','Русский'];let li=0;
-  function cycleLang(){li=(li+1)%langs.length;document.getElementById('langLabel').textContent=langs[li];}
+
+  mariaIntro();
+  applyLang();
 </script>
 </body>
 </html>

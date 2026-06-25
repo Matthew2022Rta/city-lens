@@ -21,7 +21,14 @@ It's a single HTML file — no build step, no install.
 
 ## Tech
 
-Plain HTML, CSS, and JavaScript in one file (`index.html`). Nothing to install yet.
+Plain HTML, CSS, and JavaScript. Nothing to install.
+
+- `index.html` — the app (layout, screens, logic).
+- `resources.js` — **all the resource data** (orgs, phone numbers, descriptions). This is the file
+  to edit when you want to add or change a resource. Instructions are at the top of that file.
+  The "Talk to someone" screen builds its cards automatically from this data, filtered by the
+  situation the person picked.
+- `RESOURCES.md` / `DATA_SOURCES.md` — research notes and the plan for where data comes from.
 
 ## Working together (Matt + Sam)
 
