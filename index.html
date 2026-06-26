@@ -41,6 +41,13 @@
   .lang{margin-left:auto;font-size:13px;color:var(--ink-soft);border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:30px;cursor:pointer;display:flex;align-items:center;gap:5px}
   .lang:hover{border-color:var(--accent)}
   .lang.activeLang{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-deep)}
+  .langwrap{margin-left:auto;position:relative}
+  .langmenu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);padding:6px;display:none;flex-direction:column;min-width:178px;z-index:50;max-height:72vh;overflow-y:auto}
+  .langmenu.open{display:flex}
+  .langitem{background:none;border:none;text-align:left;padding:9px 12px;border-radius:9px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .langitem:hover{background:var(--accent-soft)}
+  .langitem.on{background:var(--accent-soft);color:var(--accent-deep);font-weight:700}
+  .langcaret{font-size:10px;opacity:.7}
   .screen{display:none;padding:22px 18px 120px;animation:fade .4s ease}
   .screen.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -233,7 +240,10 @@
 <div class="wrap">
   <div class="topbar">
     <div class="logo"><span class="dot">C</span>Casa <span class="beta">BETA</span></div>
-    <button class="lang activeLang" id="langBtn" onclick="toggleLang()">🌐 <span id="langLabel">English</span></button>
+    <div class="langwrap">
+      <button class="lang activeLang" id="langBtn" onclick="toggleLangMenu(event)">🌐 <span id="langLabel">English</span> <span class="langcaret">▾</span></button>
+      <div class="langmenu" id="langMenu"></div>
+    </div>
   </div>
 
   <section class="screen active" id="s-home">
@@ -341,7 +351,7 @@
     <h2 id="sumTitle">—</h2>
     <div class="toolbar">
       <button class="tool" id="btnDeep" onclick="toggleDeep()">📖 <span data-i="explain_more">Explain in more depth</span></button>
-      <button class="tool" id="btnTrans" onclick="toggleLang()">🌐 <span id="transLabel">Español</span></button>
+      <button class="tool" id="btnTrans" onclick="toggleLangMenu(event)">🌐 <span id="transLabel">Language</span></button>
     </div>
     <div class="summary-card">
       <span class="tag amber" id="sumTag">—</span>
@@ -460,6 +470,7 @@
 
 <script src="resources.js"></script>
 <script src="dates.js"></script>
+<script src="i18n.js"></script>
 <script>
   const SUM = {
     type:{
@@ -625,18 +636,53 @@
     }).join('');
   }
 
-  function toggleLang(){ LANG = LANG==='en' ? 'es' : 'en'; applyLang(); }
+  /* ---- language registry + merge helpers (extra languages live in i18n.js) ---- */
+  function allLangs(){ return (typeof CASA_LANGS!=='undefined') ? CASA_LANGS : [{code:'en',name:'English'},{code:'es',name:'Español'}]; }
+  function langName(code){ const l=allLangs().find(x=>x.code===code); return l?l.name:code; }
+  // merged interface strings: English base, then the active language on top
+  function dict(){
+    const base=Object.assign({}, UI.en, UI[LANG]||{});
+    if(typeof CASA_I18N!=='undefined' && CASA_I18N[LANG]) Object.assign(base, CASA_I18N[LANG]);
+    return base;
+  }
+  function sumFor(key){
+    const s=SUM[key]||SUM.type;
+    return s[LANG] || (typeof CASA_SUM_I18N!=='undefined' && CASA_SUM_I18N[LANG] && CASA_SUM_I18N[LANG][key]) || s.en;
+  }
+  function rightsFor(i){
+    const r=RIGHTS[i];
+    return r[LANG] || (typeof CASA_RIGHTS_I18N!=='undefined' && CASA_RIGHTS_I18N[LANG] && CASA_RIGHTS_I18N[LANG][i]) || r.en;
+  }
+  function dlg(){ return DLG_LABELS[LANG] || (typeof CASA_DLG_I18N!=='undefined' && CASA_DLG_I18N[LANG]) || DLG_LABELS.en; }
+  function misc(k){
+    const M=(typeof CASA_MISC_I18N!=='undefined')?CASA_MISC_I18N:{};
+    return (M[LANG]&&M[LANG][k]) || (M.en&&M.en[k]) || '';
+  }
+
+  /* ---- language dropdown menu ---- */
+  function buildLangMenu(){
+    const menu=document.getElementById('langMenu'); if(!menu) return;
+    menu.innerHTML = allLangs().map(l=>
+      `<button class="langitem${l.code===LANG?' on':''}" onclick="setLang('${l.code}')">${esc(l.name)}</button>`
+    ).join('');
+  }
+  function toggleLangMenu(e){ if(e) e.stopPropagation(); buildLangMenu(); document.getElementById('langMenu').classList.toggle('open'); }
+  function closeLangMenu(){ const m=document.getElementById('langMenu'); if(m) m.classList.remove('open'); }
+  function setLang(code){ LANG=code; closeLangMenu(); applyLang(); }
+  document.addEventListener('click', e=>{ if(!e.target.closest('.langwrap') && !e.target.closest('#btnTrans')) closeLangMenu(); });
+
   function applyLang(){
-    const t=UI[LANG];
+    const t=dict();
     document.querySelectorAll('[data-i]').forEach(el=>{
       const k=el.getAttribute('data-i'); if(t[k]!=null) el.textContent=t[k];
     });
     document.querySelectorAll('[data-i-ph]').forEach(el=>{
       const k=el.getAttribute('data-i-ph'); if(t[k]!=null) el.setAttribute('placeholder',t[k]);
     });
-    document.getElementById('langLabel').textContent = LANG==='en'?'English':'Español';
-    document.getElementById('transLabel').textContent = LANG==='en'?'Español':'English';
+    document.getElementById('langLabel').textContent = langName(LANG);
+    const tl=document.getElementById('transLabel'); if(tl) tl.textContent = langName(LANG);
     document.documentElement.lang = LANG;
+    buildLangMenu();
     if(document.getElementById('s-summary').classList.contains('active')) renderSummary();
     if(document.getElementById('s-rights').classList.contains('active')) renderRights();
     if(document.getElementById('s-talk').classList.contains('active')) paintResources();
@@ -660,7 +706,7 @@
     const list=(typeof CASA_DATES!=='undefined')?CASA_DATES:[];
     const cats=(typeof CASA_DATE_CATS!=='undefined')?CASA_DATE_CATS:{order:[],labels:{}};
     const catLabels=(cats.labels&&(cats.labels[LANG]||cats.labels.en))||{};
-    const allLabel=(LANG==='es')?'Todas':'All';
+    const allLabel=misc('all_label')||'All';
     let chips=`<button class="datechip${dateFilter==='all'?' on':''}" onclick="setDateFilter('all')">${allLabel}</button>`;
     (cats.order||[]).forEach(cat=>{
       if(!list.some(d=>d.cat===cat)) return;
@@ -687,7 +733,7 @@
   }
   function openDate(i){
     const d=(typeof CASA_DATES!=='undefined')?CASA_DATES[i]:null; if(!d) return;
-    const L=DLG_LABELS[LANG]||DLG_LABELS.en;
+    const L=dlg();
     const pick=o=>(o&&(o[LANG]||o.en))||'';
     const bot=pick(d.badgeBot);
     document.getElementById('dlgTitle').textContent=pick(d.title);
@@ -710,10 +756,7 @@
   }
   function mariaIntro(){
     chatlog().innerHTML='';
-    const greet = LANG==='en'
-      ? "Hi, I'm Maria. 💚 You're in the right place. Tell me what's going on — in your own words, in any language. Nothing is shared with anyone."
-      : "Hola, soy Maria. 💚 Estás en el lugar correcto. Cuéntame qué está pasando — con tus palabras, en cualquier idioma. Nada se comparte con nadie.";
-    addBubble(greet,'maria');
+    addBubble(misc('greet'),'maria');
   }
   function mariaThenSummary(key){
     currentKey=key;
@@ -721,15 +764,12 @@
     const bubble=t();
     setTimeout(()=>{
       bubble.remove();
-      const msg = LANG==='en'
-        ? "Thank you for telling me. I understand, and you have options. Let me show you what this means — one step at a time."
-        : "Gracias por contarme. Entiendo, y tienes opciones. Déjame mostrarte qué significa — paso a paso.";
-      addBubble(msg,'maria');
+      addBubble(misc('ack'),'maria');
       setTimeout(()=>{ analyze(key); }, 850);
     },1100);
   }
   function mariaPick(key){
-    const labels=UI[LANG];
+    const labels=dict();
     const map={evict:labels.c_evict,rent:labels.c_rent,unsafe:labels.c_unsafe,shelter:labels.c_shelter};
     addBubble(map[key]||key,'user');
     mariaThenSummary(key);
@@ -740,12 +780,10 @@
     mariaThenSummary(detectKey(v));
   }
   function mariaPhoto(){
-    const msg = LANG==='en' ? "📄 Photo of my notice" : "📄 Foto de mi aviso";
-    addBubble(msg,'user');
+    addBubble(misc('photo_user'),'user');
     const bubble=addBubble('<span class="typing-b"><span></span><span></span><span></span></span>','maria');
     setTimeout(()=>{ bubble.remove();
-      const r = LANG==='en'?"I read it — this looks like a Notice to Cure. Here's what it means.":"Lo leí — esto parece un Aviso para Subsanar. Esto es lo que significa.";
-      addBubble(r,'maria'); setTimeout(()=>analyze('type'),850);
+      addBubble(misc('photo_read'),'maria'); setTimeout(()=>analyze('type'),850);
     },2200);
   }
   function detectKey(s){
@@ -771,17 +809,17 @@
     document.getElementById('docArea').style.display='block';
     setTimeout(()=>{
       document.getElementById('scan').style.display='none';
-      document.getElementById('readStatus').innerHTML = LANG==='en'?'✅ Done — here’s what it says.':'✅ Listo — esto es lo que dice.';
+      document.getElementById('readStatus').innerHTML = misc('read_done');
       setTimeout(()=>analyze('type'),700);
     },2600);
   }
 
   function analyze(key){ currentKey=key; deepOpen=false; renderSummary(); go('s-summary'); }
   function renderSummary(){
-    const d = (SUM[currentKey]||SUM.type)[LANG];
+    const d = sumFor(currentKey);
     document.getElementById('sumTitle').innerHTML=d.title;
     document.getElementById('sumTag').textContent=d.tag;
-    document.getElementById('sumTag').className='tag '+((d.tag.includes('refugio')||d.tag.includes('shelter')||d.tag.includes('available')||d.tag.includes('disponible'))?'green':'amber');
+    document.getElementById('sumTag').className='tag '+((currentKey==='rent'||currentKey==='shelter')?'green':'amber');
     document.getElementById('sumPlain').innerHTML=d.plain;
     document.getElementById('sumReassure').textContent=d.reassure;
     document.getElementById('sumFacts').innerHTML=d.facts.map(f=>`<div class="factline"><span class="fi">${f[0]}</span><div>${f[1]}</div></div>`).join('');
@@ -796,9 +834,9 @@
 
   function renderRights(){
     const wrap=document.getElementById('rightsList');
-    const moreLabel = LANG==='es' ? 'Recursos oficiales' : 'Official resources';
+    const moreLabel = misc('more_label')||'Official resources';
     wrap.innerHTML=RIGHTS.map((r,i)=>{
-      const c=r[LANG];
+      const c=rightsFor(i);
       const items=c.items.map(x=>`<li>${x}</li>`).join('');
       const links=(r.links&&r.links.length)
         ? `<div class="rlinks"><div class="rlinks-h">${moreLabel}</div>`+r.links.map(l=>`<a class="rlink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join('')+`</div>`

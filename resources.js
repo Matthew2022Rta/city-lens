@@ -489,5 +489,40 @@ const CASA_CATEGORY_LABELS = {
     shelter:        "Sin dónde quedarte — ayuda ahora",
     discrimination: "Discriminación de vivienda — presenta una queja",
     dv:             "Seguridad y violencia doméstica"
+  },
+  zh: {
+    all:"可以帮助您的人——免费", evict:"面临驱逐——谁能帮忙", rent:"付房租的帮助",
+    unsafe:"不安全的条件——您的选择", affordable:"寻找可负担住房", shelter:"无处可住——立即帮助",
+    discrimination:"住房歧视——投诉", dv:"安全与家庭暴力帮助"
+  },
+  ht: {
+    all:"Moun ki ka ede w — gratis", evict:"Fè fas ak degèpisman — kiyès ki ka ede", rent:"Èd pou peye lwaye",
+    unsafe:"Kondisyon ki pa an sekirite — opsyon ou", affordable:"Chèche lojman abòdab", shelter:"Pa gen kote pou rete — èd kounye a",
+    discrimination:"Diskriminasyon lojman — depoze yon plent", dv:"Èd pou sekirite ak vyolans domestik"
+  },
+  bn: {
+    all:"যারা সাহায্য করতে পারেন — বিনামূল্যে", evict:"উচ্ছেদের মুখোমুখি — কে সাহায্য করতে পারে", rent:"ভাড়া দেওয়ার সাহায্য",
+    unsafe:"অনিরাপদ পরিস্থিতি — আপনার বিকল্প", affordable:"সাশ্রয়ী আবাসন খোঁজা", shelter:"থাকার জায়গা নেই — এখনই সাহায্য",
+    discrimination:"আবাসন বৈষম্য — অভিযোগ করুন", dv:"নিরাপত্তা ও পারিবারিক সহিংসতা সহায়তা"
+  },
+  ru: {
+    all:"Люди, которые могут помочь — бесплатно", evict:"Грозит выселение — кто поможет", rent:"Помощь с оплатой аренды",
+    unsafe:"Небезопасные условия — ваши варианты", affordable:"Поиск доступного жилья", shelter:"Негде жить — помощь сейчас",
+    discrimination:"Жилищная дискриминация — подать жалобу", dv:"Безопасность и помощь при домашнем насилии"
+  },
+  it: {
+    all:"Persone che possono aiutarti — gratis", evict:"Sfratto in arrivo — chi può aiutare", rent:"Aiuto a pagare l'affitto",
+    unsafe:"Condizioni non sicure — le tue opzioni", affordable:"Cercare una casa accessibile", shelter:"Nessun posto dove stare — aiuto ora",
+    discrimination:"Discriminazione abitativa — presenta un reclamo", dv:"Sicurezza e aiuto per la violenza domestica"
+  },
+  fr: {
+    all:"Des personnes qui peuvent aider — gratuit", evict:"Face à une expulsion — qui peut aider", rent:"Aide pour payer le loyer",
+    unsafe:"Conditions non sûres — vos options", affordable:"Trouver un logement abordable", shelter:"Nulle part où aller — aide maintenant",
+    discrimination:"Discrimination au logement — déposer une plainte", dv:"Sécurité et aide en cas de violence domestique"
+  },
+  de: {
+    all:"Menschen, die helfen können — kostenlos", evict:"Räumung droht — wer helfen kann", rent:"Hilfe bei der Miete",
+    unsafe:"Unsichere Verhältnisse — Ihre Optionen", affordable:"Bezahlbaren Wohnraum finden", shelter:"Keine Unterkunft — Hilfe jetzt",
+    discrimination:"Wohnungsdiskriminierung — Beschwerde einreichen", dv:"Sicherheit und Hilfe bei häuslicher Gewalt"
   }
 };

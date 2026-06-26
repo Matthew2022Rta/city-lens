@@ -28,7 +28,22 @@ Plain HTML, CSS, and JavaScript. Nothing to install.
   to edit when you want to add or change a resource. Instructions are at the top of that file.
   The "Talk to someone" screen builds its cards automatically from this data, filtered by the
   situation the person picked.
+- `dates.js` — the "Important dates" data (deadlines, what they mean). Bilingual EN/ES inline,
+  plus EN labels for the other languages.
+- `i18n.js` — **all translations for languages beyond English & Spanish** (currently Chinese,
+  Haitian Creole, Bengali, Russian, Italian, French, German). Anything not translated here
+  falls back to English automatically, so the app never breaks. To add a language, add it to
+  `CASA_LANGS` and fill in the blocks. Instructions are at the top of the file.
 - `RESOURCES.md` / `DATA_SOURCES.md` — research notes and the plan for where data comes from.
+
+## Languages
+
+The 🌐 button (top-right, and on the summary screen) opens a dropdown to switch language.
+English & Spanish live in `index.html`; every other language lives in `i18n.js`. The interface,
+situation explanations, rights guides, news, and resource/date headings are translated for all
+nine languages. **Note:** the individual date pop-up details (the long text inside each date) and
+the resource descriptions still show in English for now. The translations are machine-assisted
+drafts — have a fluent speaker review each one before any public launch (this is legal info).
 
 ## Working together (Matt + Sam)
 

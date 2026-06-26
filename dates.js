@@ -25,7 +25,14 @@ const CASA_DATE_CATS = {
   order: ["housing", "money", "government", "education", "work"],
   labels: {
     en: { housing:"Housing & utilities", money:"Taxes & money", government:"Government & legal", education:"School & education", work:"Work & career" },
-    es: { housing:"Vivienda y servicios", money:"Impuestos y dinero", government:"Gobierno y legal", education:"Escuela y educación", work:"Trabajo y carrera" }
+    es: { housing:"Vivienda y servicios", money:"Impuestos y dinero", government:"Gobierno y legal", education:"Escuela y educación", work:"Trabajo y carrera" },
+    zh: { housing:"住房与公用事业", money:"税务与金钱", government:"政府与法律", education:"学校与教育", work:"工作与职业" },
+    ht: { housing:"Lojman ak sèvis", money:"Taks ak lajan", government:"Gouvènman ak legal", education:"Lekòl ak edikasyon", work:"Travay ak karyè" },
+    bn: { housing:"বাসস্থান ও ইউটিলিটি", money:"কর ও অর্থ", government:"সরকার ও আইন", education:"স্কুল ও শিক্ষা", work:"কাজ ও পেশা" },
+    ru: { housing:"Жильё и коммунальные услуги", money:"Налоги и деньги", government:"Власти и право", education:"Школа и образование", work:"Работа и карьера" },
+    it: { housing:"Casa e utenze", money:"Tasse e denaro", government:"Governo e legale", education:"Scuola e istruzione", work:"Lavoro e carriera" },
+    fr: { housing:"Logement et services", money:"Impôts et argent", government:"Gouvernement et droit", education:"École et éducation", work:"Travail et carrière" },
+    de: { housing:"Wohnen und Versorgung", money:"Steuern und Geld", government:"Behörden und Recht", education:"Schule und Bildung", work:"Arbeit und Beruf" }
   }
 };
 
@@ -233,5 +240,12 @@ const CASA_DATES = [
 /* Panel labels (bilingual) */
 const CASA_DATES_LABELS = {
   en: { title:"Important dates", sub:"Housing, money, voting, school & work", note:"Tap any date for details · verified June 2026" },
-  es: { title:"Fechas importantes", sub:"Vivienda, dinero, voto, escuela y trabajo", note:"Toca una fecha para detalles · verificado junio 2026" }
+  es: { title:"Fechas importantes", sub:"Vivienda, dinero, voto, escuela y trabajo", note:"Toca una fecha para detalles · verificado junio 2026" },
+  zh: { title:"重要日期", sub:"住房、金钱、投票、上学和工作", note:"点按任意日期查看详情 · 2026年6月核实" },
+  ht: { title:"Dat enpòtan", sub:"Lojman, lajan, vòt, lekòl ak travay", note:"Klike sou yon dat pou detay · verifye jen 2026" },
+  bn: { title:"গুরুত্বপূর্ণ তারিখ", sub:"বাসস্থান, অর্থ, ভোট, স্কুল ও কাজ", note:"বিস্তারিত জানতে যেকোনো তারিখে ট্যাপ করুন · জুন ২০২৬-এ যাচাইকৃত" },
+  ru: { title:"Важные даты", sub:"Жильё, деньги, выборы, учёба и работа", note:"Нажмите на дату для подробностей · проверено в июне 2026" },
+  it: { title:"Date importanti", sub:"Casa, denaro, voto, scuola e lavoro", note:"Tocca una data per i dettagli · verificato a giugno 2026" },
+  fr: { title:"Dates importantes", sub:"Logement, argent, vote, école et travail", note:"Touchez une date pour les détails · vérifié en juin 2026" },
+  de: { title:"Wichtige Termine", sub:"Wohnen, Geld, Wahlen, Schule und Arbeit", note:"Für Details auf einen Termin tippen · geprüft Juni 2026" }
 };
